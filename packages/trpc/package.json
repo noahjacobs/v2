@@ -9,8 +9,8 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . ",
-    "build": "yarn trpc:generate || true",
-    "trpc:generate": "yarn tsc --project tsconfig.json"
+    "build": "bun run trpc:generate || true",
+    "trpc:generate": "bun run tsc --project tsconfig.json"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.17.15",

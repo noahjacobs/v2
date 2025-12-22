@@ -240,24 +240,17 @@ export const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonPr
   } = props;
   // Buttons are **always** disabled if we're in a `loading` state
   const disabled = props.disabled || loading;
-  // If pass an `href`-attr is passed it's `<a>`, otherwise it's a `<button />`
-  const isLink = typeof props.href !== "undefined";
-  const elementType = isLink ? "a" : "button";
-  const element = React.createElement(
-    elementType,
-    {
-      ...passThroughProps,
-      disabled,
-      type: !isLink ? type : undefined,
-      ref: forwardedRef,
-      className: classNames(buttonClasses({ color, size, loading, variant }), props.className),
-      // if we click a disabled button, we prevent going through the click handler
-      onClick: disabled
-        ? (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-            e.preventDefault();
-          }
-        : props.onClick,
-    },
+
+  const buttonClassName = classNames(buttonClasses({ color, size, loading, variant }), props.className);
+
+  const handleClick = disabled
+    ? (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+        e.preventDefault();
+      }
+    : props.onClick;
+
+  // Shared content for both Link and button
+  const content = (
     <>
       {CustomStartIcon ||
         (StartIcon && (
@@ -284,7 +277,7 @@ export const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonPr
         ))}
       <div
         className={classNames(
-          "contents", // This makes the div behave like it doesn't exist in the layout
+          "contents",
           loading ? "invisible" : "visible",
           variant === "fab" ? "hidden md:contents" : "",
           "group-[:not(div):active]:translate-y-[0.5px]"
@@ -334,18 +327,47 @@ export const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonPr
     </>
   );
 
-  return props.href ? (
-    <Link data-testid="link-component" passHref href={props.href} shallow={shallow && shallow} legacyBehavior>
-      {element}
-    </Link>
-  ) : (
+  // Render as Link (Next.js 15+ renders <a> automatically)
+  if (props.href) {
+    return (
+      <Wrapper
+        data-testid="wrapper"
+        tooltip={props.tooltip}
+        tooltipSide={tooltipSide}
+        tooltipOffset={tooltipOffset}
+        tooltipClassName={tooltipClassName}>
+        <Link
+          data-testid="link-component"
+          href={props.href}
+          shallow={shallow}
+          ref={forwardedRef as React.Ref<HTMLAnchorElement>}
+          className={buttonClassName}
+          onClick={handleClick}
+          aria-disabled={disabled || undefined}
+          {...(passThroughProps as Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href">)}>
+          {content}
+        </Link>
+      </Wrapper>
+    );
+  }
+
+  // Render as button
+  return (
     <Wrapper
       data-testid="wrapper"
       tooltip={props.tooltip}
       tooltipSide={tooltipSide}
       tooltipOffset={tooltipOffset}
       tooltipClassName={tooltipClassName}>
-      {element}
+      <button
+        {...(passThroughProps as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+        disabled={disabled}
+        type={type}
+        ref={forwardedRef as React.Ref<HTMLButtonElement>}
+        className={buttonClassName}
+        onClick={handleClick}>
+        {content}
+      </button>
     </Wrapper>
   );
 });

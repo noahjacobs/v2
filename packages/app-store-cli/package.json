@@ -11,21 +11,27 @@
     "build": "ts-node --transpile-only src/build.ts",
     "cli": "ts-node --transpile-only src/cli.tsx",
     "watch": "ts-node --transpile-only src/build.ts --watch",
-    "generate": "ts-node --transpile-only src/build.ts",
-    "post-install": "yarn build"
+    "generate": "ts-node --transpile-only src/build.ts"
   },
   "files": [
     "dist/cli.js"
   ],
   "dependencies": {
+    "@calcom/config": "workspace:*",
     "@calcom/lib": "workspace:*",
+    "@calcom/types": "workspace:*",
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "ink": "^3.2.0",
     "ink-select-input": "^4.2.1",
     "ink-text-input": "^4.0.3",
+    "lodash": "^4.17.21",
     "meow": "^9.0.0",
+    "prettier": "^2.8.6",
+    "prettier-plugin-tailwindcss": "^0.2.8",
     "react": "^18.2.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.182",
     "@types/react": "18.0.26",
     "chokidar": "^3.5.3",
     "eslint-plugin-react": "^7.30.1",

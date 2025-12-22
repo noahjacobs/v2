@@ -14,7 +14,7 @@ Cal.com is structured as a monorepo using [Turborepo](https://github.com/vercel/
 Here is what you need to be able to run Cal.com.
 - Node.js (Version: >=18.x)
 - PostgreSQL
-- Yarn (recommended)
+- Bun (recommended)
 
 Cal.com can be set up and run on your machine locally. Please take a look at [this quick guide](https://cal.com/docs/developing/local-development) for instructions on setting it up.
 
@@ -186,20 +186,20 @@ Be sure to set the environment variable `NEXTAUTH_URL` to the correct value. If 
 
 In a terminal just run:
 ```bash
-yarn test-e2e
+bun run test-e2e
 ```
 
 To open the last HTML report run:
 
 ```bash
-`yarn playwright show-report test-results/reports/playwright-html-report`
+`bun run playwright show-report test-results/reports/playwright-html-report`
 ```
 
 #### Resolving issues
 
 **E2E test browsers not installed**
 
-If you face the following error when running `yarn test-e2e`:
+If you face the following error when running `bun run test-e2e`:
 
 <Warning>
 Executable doesn't exist at /Users/alice/Library/Caches/ms-playwright/chromium-1048/chrome-mac/Chromium.app

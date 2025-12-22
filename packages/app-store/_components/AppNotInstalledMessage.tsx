@@ -17,7 +17,9 @@ export default function AppNotInstalledMessage({ appName }: { appName: string })
         <p className="text-subtle px-1 leading-normal">{t("visit_our_app_store")}</p>
 
         <div className="mt-5">
-          <Link href={`/apps/${appName}`} passHref={true} legacyBehavior>
+          <Link href={`/apps/${appName}`}>
+            {/* @next-codemod-error This Link previously used the now removed `legacyBehavior` prop, and has a child that might not be an anchor. The codemod bailed out of lifting the child props to the Link. Check that the child component does not render an anchor, and potentially move the props manually to Link. */
+            }
             <Button type="button" color="secondary">
               {t("go_to_app_store")}
               <Icon name="arrow-up-right" className="ml-1" size={20} />

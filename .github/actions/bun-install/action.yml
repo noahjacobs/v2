@@ -1,0 +1,61 @@
+########################################################################################
+# "bun install" composite action                                                       #
+#--------------------------------------------------------------------------------------#
+# Cache:                                                                               #
+#   - Bun global cache (preserved across bun.lock changes)                             #
+#   - node_modules (invalidated on bun.lock changes)                                   #
+########################################################################################
+
+name: "Bun install"
+description: "Install Bun and run bun install with caching"
+inputs:
+  bun_version:
+    required: false
+    default: "latest"
+  node_version:
+    required: false
+    default: v20.x
+
+runs:
+  using: "composite"
+  steps:
+    - name: Use Node ${{ inputs.node_version }}
+      uses: buildjet/setup-node@v4
+      with:
+        node-version: ${{ inputs.node_version }}
+
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: ${{ inputs.bun_version }}
+
+    - name: Get Bun cache directory
+      id: bun-cache
+      shell: bash
+      run: echo "CACHE_DIR=$(bun pm cache)" >> $GITHUB_OUTPUT
+
+    - name: Restore Bun cache
+      uses: buildjet/cache@v4
+      id: bun-download-cache
+      with:
+        path: ${{ steps.bun-cache.outputs.CACHE_DIR }}
+        key: bun-download-cache-${{ hashFiles('bun.lock') }}
+        restore-keys: |
+          bun-download-cache-
+
+    - name: Restore node_modules
+      id: bun-nm-cache
+      uses: buildjet/cache@v4
+      with:
+        path: "**/node_modules/"
+        key: ${{ runner.os }}-bun-nm-cache-${{ hashFiles('bun.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-bun-nm-cache-
+
+    - name: Install dependencies
+      shell: bash
+      run: |
+        bun install --frozen-lockfile
+        bun run prisma generate
+      env:
+        HUSKY: "0"

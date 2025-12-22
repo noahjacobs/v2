@@ -31,36 +31,18 @@ const workspaces = packagedEmbedTestsOnly
         },
         resolve: {
           alias: {
-            "~": new URL("./apps/api/v1", import.meta.url).pathname,
+            "~": new URL("./apps/web", import.meta.url).pathname,
           },
         },
       },
     ]
   : // It doesn't seem to be possible to fake timezone per test, so we rerun the entire suite with different TZ. See https://github.com/vitest-dev/vitest/issues/1575#issuecomment-1439286286
-  integrationTestsOnly
-  ? [
-      {
-        test: {
-          name: `IntegrationTests`,
-          include: ["packages/**/*.integration-test.ts", "apps/**/*.integration-test.ts"],
-          // TODO: Ignore the api until tests are fixed
-          exclude: ["**/node_modules/**/*", "packages/embeds/**/*"],
-          setupFiles: ["setupVitest.ts"],
-        },
-        resolve: {
-          alias: {
-            "~": new URL("./apps/api/v1", import.meta.url).pathname,
-          },
-        },
-      },
-    ]
-  : timeZoneDependentTestsOnly
+  timeZoneDependentTestsOnly
   ? [
       {
         test: {
           name: `TimezoneDependentTests:${envTZ}`,
           include: ["packages/**/*.timezone.test.ts", "apps/**/*.timezone.test.ts"],
-          // TODO: Ignore the api until tests are fixed
           exclude: ["**/node_modules/**/*", "packages/embeds/**/*"],
           setupFiles: ["setupVitest.ts"],
         },
@@ -76,8 +58,6 @@ const workspaces = packagedEmbedTestsOnly
             "packages/embeds/**/*",
             "packages/lib/hooks/**/*",
             "packages/platform/**/*",
-            "apps/api/v1/**/*",
-            "apps/api/v2/**/*",
           ],
           name: "@calcom/lib",
           setupFiles: ["setupVitest.ts"],
@@ -89,26 +69,6 @@ const workspaces = packagedEmbedTestsOnly
             "@components": new URL("./apps/web/components", import.meta.url).pathname,
             "@pages": new URL("./apps/web/pages", import.meta.url).pathname,
             "~": new URL("./apps/web/modules", import.meta.url).pathname,
-          },
-        },
-      },
-      {
-        test: {
-          include: ["apps/api/v1/**/*.{test,spec}.{ts,js}"],
-          exclude: [
-            "**/node_modules/**/*",
-            "**/.next/**/*",
-            "packages/embeds/**/*",
-            "packages/lib/hooks/**/*",
-            "packages/platform/**/*",
-            "apps/api/v2/**/*",
-          ],
-          name: "@calcom/api",
-          setupFiles: ["setupVitest.ts"],
-        },
-        resolve: {
-          alias: {
-            "~": new URL("./apps/api/v1", import.meta.url).pathname,
           },
         },
       },

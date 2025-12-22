@@ -13,13 +13,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/dangerous-git-checkout
-      - uses: ./.github/actions/yarn-install
+      - uses: ./.github/actions/bun-install
       - name: Cache atoms production build
         uses: buildjet/cache@v4
         id: cache-atoms-build
         env:
           cache-name: atoms-build
-          key-1: ${{ hashFiles('yarn.lock') }}
+          key-1: ${{ hashFiles('bun.lock') }}
           key-2: ${{ hashFiles('packages/platform/atoms/**.[jt]s', 'packages/platform/atoms/**.[jt]sx', '!**/node_modules') }}
           key-3: ${{ github.event.pull_request.number || github.ref }}
           # Ensures production-build.yml will always be fresh
@@ -36,6 +36,6 @@ jobs:
         run: |
           export NODE_OPTIONS="--max_old_space_size=8192"
           rm -rf packages/platform/atoms/node_modules
-          yarn install
-          yarn workspace @calcom/atoms run build-npm
+          bun install
+          bun --filter @calcom/atoms run build-npm
         shell: bash

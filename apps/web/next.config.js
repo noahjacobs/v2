@@ -208,6 +208,13 @@ const nextConfig = (phase) => {
       optimizePackageImports: ["@calcom/ui"],
       webpackMemoryOptimizations: true,
       webpackBuildWorker: true,
+      // Turbopack configuration
+      turbo: {
+        resolveAlias: {
+          // Ensure all imports of @calcom/trpc/react use the same module instance
+          "@calcom/trpc/react": "./app/_trpc/trpc-exports.ts",
+        },
+      },
     },
     productionBrowserSourceMaps: true,
     transpilePackages: [
@@ -219,7 +226,9 @@ const nextConfig = (phase) => {
       "@calcom/lib",
       "@calcom/prisma",
       "@calcom/trpc",
+      "@calcom/ui",
       "@coss/ui",
+      "nuqs",
     ],
     modularizeImports: {
       "@calcom/features/insights/components": {

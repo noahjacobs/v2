@@ -134,7 +134,9 @@ export default function MakeSetup({ inviteLink }: InferGetServerSidePropsType<ty
                 <li>{t("make_setup_instructions_5")}</li>
                 <li>{t("make_setup_instructions_6")}</li>
               </ol>
-              <Link href="/apps/installed/automation?hl=make" passHref={true} legacyBehavior>
+              <Link href="/apps/installed/automation?hl=make">
+                {/* @next-codemod-error This Link previously used the now removed `legacyBehavior` prop, and has a child that might not be an anchor. The codemod bailed out of lifting the child props to the Link. Check that the child component does not render an anchor, and potentially move the props manually to Link. */
+                }
                 <Button color="secondary">{t("done")}</Button>
               </Link>
             </div>

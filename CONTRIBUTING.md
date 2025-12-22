@@ -155,7 +155,7 @@ export class HashedLinkService { ... }
 You can build the project with:
 
 ```bash
-yarn build
+bun run build
 ```
 
 Please ensure that you can make a full production build before pushing code.
@@ -172,7 +172,7 @@ More info on how to add new tests coming soon.
 
 ##### E2E Test Browsers Not Installed
 
-Run `npx playwright install` to download test browsers and resolve the error below when running `yarn test-e2e`:
+Run `npx playwright install` to download test browsers and resolve the error below when running `bun run test-e2e`:
 
 ```
 Executable doesn't exist at /Users/alice/Library/Caches/ms-playwright/chromium-1048/chrome-mac/Chromium.app/Contents/MacOS/Chromium
@@ -183,7 +183,7 @@ Executable doesn't exist at /Users/alice/Library/Caches/ms-playwright/chromium-1
 To check the formatting of your code:
 
 ```sh
-yarn lint
+bun run lint
 ```
 
 If you get errors, be sure to fix them before committing.

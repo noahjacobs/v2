@@ -1,3 +1,2 @@
-import type { PERMISSIONS } from "@calcom/platform-constants";
-
-export type PLATFORM_PERMISSION = (typeof PERMISSIONS)[number];
+// Re-export from constants for backwards compatibility
+export type { PLATFORM_PERMISSION } from "@calcom/platform-constants";

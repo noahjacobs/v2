@@ -98,7 +98,7 @@ jobs:
     name: Install dependencies
     needs: [changes, check-label]
     if: ${{ needs.changes.outputs.has-files-requiring-all-checks == 'true' }}
-    uses: ./.github/workflows/yarn-install.yml
+    uses: ./.github/workflows/bun-install.yml
 
   type-check:
     name: Type check

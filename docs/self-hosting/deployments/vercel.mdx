@@ -12,7 +12,7 @@ You need a PostgresDB database hosted somewhere. [Supabase](https://supabase.com
 
 ## One Click Deployment
 
-<a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcalcom%2Fcal.com&env=DATABASE_URL,NEXT_PUBLIC_WEBAPP_URL,NEXTAUTH_URL,NEXTAUTH_SECRET,CRON_API_KEY,CALENDSO_ENCRYPTION_KEY&envDescription=See%20all%20available%20env%20vars&envLink=https%3A%2F%2Fgithub.com%2Fcalcom%2Fcal.com%2Fblob%2Fmain%2F.env.example&project-name=cal&repo-name=cal.com&build-command=cd%20../..%20%26%26%20yarn%20build&root-directory=apps%2Fweb%2F" target="_blank">
+<a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcalcom%2Fcal.com&env=DATABASE_URL,NEXT_PUBLIC_WEBAPP_URL,NEXTAUTH_URL,NEXTAUTH_SECRET,CRON_API_KEY,CALENDSO_ENCRYPTION_KEY&envDescription=See%20all%20available%20env%20vars&envLink=https%3A%2F%2Fgithub.com%2Fcalcom%2Fcal.com%2Fblob%2Fmain%2F.env.example&project-name=cal&repo-name=cal.com&build-command=cd%20../..%20%26%26%20bun run%20build&root-directory=apps%2Fweb%2F" target="_blank">
 <img src="https://vercel.com/button" noZoom alt="Deploy with Vercel" />
 </a>
 
@@ -29,22 +29,22 @@ You need a PostgresDB database hosted somewhere. [Supabase](https://supabase.com
     <Step title="Set environment variables">
         Copy the `.env.example` file in `apps/web`, rename it to `.env` and fill it with your settings ([See manual setup](https://github.com/calcom/cal.com#manual-setup) and [Obtaining the Google API Credentials](https://github.com/calcom/cal.com#obtaining-the-google-api-credentials))
     </Step>
-    <Step title="Install packages with yarn">        
+    <Step title="Install packages with bun">
         ```
-        yarn install
+        bun install
         ```
     </Step>
     <Step title="Set up the database using the Prisma schema">
         Schema is located in at `packages/prisma/schema.prisma`.
 
         ```
-        yarn workspace @calcom/prisma db-deploy
+        bun --filter @calcom/prisma run db-deploy
         ```
     </Step>
     <Step title="Open [Prisma Studio](https://www.prisma.io/studio)">
         To look at or modify the database content
         ```
-        yarn db-studio
+        bun run db-studio
         ```
     </Step>
     <Step title="Open User model">
@@ -59,7 +59,7 @@ You need a PostgresDB database hosted somewhere. [Supabase](https://supabase.com
 </Steps>
 
 <Warning>
-Sometimes, yarn install might fail during deployment on Vercel, in which case, you can use ```YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install``` as the install command instead. 
+If bun install fails during deployment on Vercel, ensure your bun.lock file is committed and try using ```bun install --frozen-lockfile``` as the install command.
 </Warning>
 
 #### Deployment
@@ -76,7 +76,7 @@ Sometimes, yarn install might fail during deployment on Vercel, in which case, y
     <Step title="Override the build command">
         Override to:
         ```
-        cd ../.. && yarn build --no-deps
+        cd ../.. && bun run build --no-deps
         ```
     </Step>
     <Step title="Hit Deploy">

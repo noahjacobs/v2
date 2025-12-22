@@ -16,7 +16,7 @@ runs:
         # to main.
         # TODO: Fix this problem if intending to modify this cache key.
         cache-name: prod-build
-        key-1: ${{ inputs.node_version }}-${{ hashFiles('yarn.lock') }}
+        key-1: ${{ inputs.node_version }}-${{ hashFiles('bun.lock') }}
         key-2: ${{ hashFiles('apps/**/**.[jt]s', 'apps/**/**.[jt]sx', 'packages/**/**.[jt]s', 'packages/**/**.[jt]sx', '!**/node_modules') }}
         key-3: ${{ github.event.pull_request.number || github.ref }}
         key-4: ${{ github.sha }}
@@ -30,6 +30,6 @@ runs:
         key: ${{ runner.os }}-${{ env.cache-name }}-${{ env.key-1 }}-${{ env.key-2 }}-${{ env.key-3 }}-${{ env.key-4 }}-${{ env.key-5 }}
     - run: |
         export NODE_OPTIONS="--max_old_space_size=8192"
-        yarn build
+        bun run build
       if: steps.cache-build.outputs.cache-hit != 'true'
       shell: bash

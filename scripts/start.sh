@@ -6,6 +6,6 @@ set -x
 scripts/replace-placeholder.sh "$BUILT_NEXT_PUBLIC_WEBAPP_URL" "$NEXT_PUBLIC_WEBAPP_URL"
 
 scripts/wait-for-it.sh ${DATABASE_HOST} -- echo "database is up"
-npx prisma migrate deploy --schema /calcom/packages/prisma/schema.prisma
-npx ts-node --transpile-only /calcom/scripts/seed-app-store.ts
-yarn start
+bunx prisma migrate deploy --schema /calcom/packages/prisma/schema.prisma
+bunx ts-node --transpile-only /calcom/scripts/seed-app-store.ts
+bun run start

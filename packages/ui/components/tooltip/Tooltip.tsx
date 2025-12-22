@@ -41,14 +41,16 @@ export function Tooltip({
   );
 
   return (
-    <TooltipPrimitive.Root
-      delayDuration={delayDuration || 50}
-      open={open}
-      defaultOpen={defaultOpen}
-      onOpenChange={onOpenChange}>
-      <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
-      <TooltipPrimitive.Portal>{Content}</TooltipPrimitive.Portal>
-    </TooltipPrimitive.Root>
+    <TooltipPrimitive.Provider>
+      <TooltipPrimitive.Root
+        delayDuration={delayDuration || 50}
+        open={open}
+        defaultOpen={defaultOpen}
+        onOpenChange={onOpenChange}>
+        <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
+        <TooltipPrimitive.Portal>{Content}</TooltipPrimitive.Portal>
+      </TooltipPrimitive.Root>
+    </TooltipPrimitive.Provider>
   );
 }
 

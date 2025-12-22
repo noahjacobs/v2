@@ -177,7 +177,7 @@ const ProfileView = () => {
             )}
           </div>
           <div>
-            <Link href={permalink} passHref={true} target="_blank">
+            <Link href={permalink} target="_blank">
               <LinkIconButton Icon="external-link">{t("preview")}</LinkIconButton>
             </Link>
             <LinkIconButton
@@ -191,7 +191,6 @@ const ProfileView = () => {
           </div>
         </div>
       )}
-
       <div className="border-subtle mt-6 rounded-lg rounded-b-none border border-b-0 p-6">
         <Label className="mb-0 text-base font-semibold text-red-700">{t("danger_zone")}</Label>
         {team?.membership.role === "OWNER" && (

@@ -82,12 +82,12 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@v4
       - uses: ./.github/actions/dangerous-git-checkout
-      - uses: ./.github/actions/yarn-install
-      - uses: ./.github/actions/yarn-playwright-install
+      - uses: ./.github/actions/bun-install
+      - uses: ./.github/actions/bun-playwright-install
       - uses: ./.github/actions/cache-db
       - uses: ./.github/actions/cache-build
       - name: Run Tests
-        run: yarn e2e --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+        run: bun run e2e --shard=${{ matrix.shard }}/${{ strategy.job-total }}
       - name: Upload Test Results
         uses: actions/upload-artifact@v4
         if: always()

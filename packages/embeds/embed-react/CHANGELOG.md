@@ -112,7 +112,7 @@
 
 ### Patch Changes
 
-- Add changesets. Use prepack instead of prePublish and prepublish only as that works with both yarn and npm
+- Add changesets. Use prepack instead of prePublish and prepublish only as that works with both bun run and npm
 - Updated dependencies
   - @calcom/embed-snippet@1.0.7
   - @calcom/embed-core@1.1.5

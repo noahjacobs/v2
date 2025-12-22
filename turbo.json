@@ -1,6 +1,6 @@
 {
   "$schema": "https://turborepo.org/schema.json",
-  "globalDependencies": ["yarn.lock"],
+  "globalDependencies": ["bun.lock"],
   "globalEnv": [
     "ALLOWED_HOSTNAMES",
     "ANALYZE",
@@ -375,19 +375,6 @@
     },
     "@calcom/atoms#build-npm": {
       "outputs": ["dist/**", "globals.min.css"]
-    },
-    "@calcom/api-v2#build": {
-      "dependsOn": ["^build"],
-      "env": [
-        "NODE_ENV",
-        "API_PORT",
-        "DATABASE_READ_URL",
-        "DATABASE_WRITE_URL",
-        "LOG_LEVEL",
-        "NEXTAUTH_SECRET",
-        "USE_POOL",
-        "LOGGER_BRIDGE_LOG_LEVEL"
-      ]
     },
     "@calcom/ai#build": {
       "env": [

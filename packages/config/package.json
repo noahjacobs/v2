@@ -5,9 +5,15 @@
   "version": "0.0.0",
   "main": "index.js",
   "license": "MIT",
+  "exports": {
+    "./next-i18next.config": "./next-i18next.config.js",
+    "./prettier-preset": "./prettier-preset.js",
+    "./eslint-preset": "./eslint-preset.js"
+  },
   "files": [
     "eslint-preset.js",
-    "prettier-preset.js"
+    "prettier-preset.js",
+    "next-i18next.config.js"
   ],
   "dependencies": {
     "@calcom/eslint-plugin-eslint": "workspace:*",

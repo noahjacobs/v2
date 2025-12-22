@@ -1,6 +1,6 @@
 # Cal.com Development Guide for AI Agents
 
-You are a senior Cal.com engineer working in a Yarn/Turbo monorepo. You prioritize type safety, security, and small, reviewable diffs.
+You are a senior Cal.com engineer working in a Bun/Turbo monorepo. You prioritize type safety, security, and small, reviewable diffs.
 
 ## Do
 
@@ -10,7 +10,7 @@ You are a senior Cal.com engineer working in a Yarn/Turbo monorepo. You prioriti
 - Use `ErrorWithCode` for errors in non-tRPC files (services, repositories, utilities); use `TRPCError` only in tRPC routers
 - Use conventional commits: `feat:`, `fix:`, `refactor:`
 - Create PRs in draft mode by default
-- Run `yarn type-check:ci --force` before concluding CI failures are unrelated to your changes
+- Run `bun run type-check:ci --force` before concluding CI failures are unrelated to your changes
 - Import directly from source files, not barrel files (e.g., `@calcom/ui/components/button` not `@calcom/ui`)
 - Add translations to `apps/web/public/static/locales/en/common.json` for all UI strings
 - Use `date-fns` or native `Date` instead of Day.js when timezone awareness isn't needed
@@ -34,52 +34,52 @@ You are a senior Cal.com engineer working in a Yarn/Turbo monorepo. You prioriti
 
 ```bash
 # Type check - always run on changed files
-yarn type-check:ci --force
+bun run type-check:ci --force
 
 # Lint single file
-yarn eslint --fix path/to/file.tsx
+bun run eslint --fix path/to/file.tsx
 
-# Format single file  
-yarn prettier --write path/to/file.tsx
+# Format single file
+bun run prettier --write path/to/file.tsx
 
 # Unit test specific file
-yarn vitest run path/to/file.test.ts
+bun run vitest run path/to/file.test.ts
 
 # Unit test specific file + specific test
-yarn vitest run path/to/file.test.ts --testNamePattern="specific test name"
+bun run vitest run path/to/file.test.ts --testNamePattern="specific test name"
 
 # Integration test specific file
-yarn test path/to/file.integration-test.ts -- --integrationTestsOnly
+bun run test path/to/file.integration-test.ts -- --integrationTestsOnly
 
 # Integration test specific file + specific test
-yarn test path/to/file.integration-test.ts --testNamePattern="specific test name" -- --integrationTestsOnly
+bun run test path/to/file.integration-test.ts --testNamePattern="specific test name" -- --integrationTestsOnly
 
 # E2E test specific file
-PLAYWRIGHT_HEADLESS=1 yarn e2e path/to/file.e2e.ts
+PLAYWRIGHT_HEADLESS=1 bun run e2e path/to/file.e2e.ts
 
 # E2E test specific file + specific test
-PLAYWRIGHT_HEADLESS=1 yarn e2e path/to/file.e2e.ts --grep "specific test name"
+PLAYWRIGHT_HEADLESS=1 bun run e2e path/to/file.e2e.ts --grep "specific test name"
 ```
 
 ### Project-wide (use sparingly)
 
 ```bash
 # Development
-yarn dev              # Start dev server
-yarn dx               # Dev with database setup
+bun run dev           # Start dev server
+bun run dx            # Dev with database setup
 
 # Build & check
-yarn build            # Build all packages
-yarn lint:fix         # Lint and fix all
-yarn type-check       # Type check all
+bun run build         # Build all packages
+bun run lint:fix      # Lint and fix all
+bun run type-check    # Type check all
 
 # Tests (use TZ=UTC for consistency)
-TZ=UTC yarn test      # All unit tests
-yarn e2e              # All E2E tests
+TZ=UTC bun run test   # All unit tests
+bun run e2e           # All E2E tests
 
 # Database
-yarn prisma generate  # Regenerate types after schema changes
-yarn workspace @calcom/prisma db-migrate  # Run migrations
+bun run prisma generate  # Regenerate types after schema changes
+bun --filter @calcom/prisma run db-migrate  # Run migrations
 ```
 
 ## Boundaries
@@ -187,8 +187,8 @@ import { Button } from "@calcom/ui";
 ## PR Checklist
 
 - [ ] Title follows conventional commits: `feat(scope): description`
-- [ ] Type check passes: `yarn type-check:ci --force`
-- [ ] Lint passes: `yarn lint:fix`
+- [ ] Type check passes: `bun run type-check:ci --force`
+- [ ] Lint passes: `bun run lint:fix`
 - [ ] Relevant tests pass
 - [ ] Diff is small and focused (<500 lines, <10 files)
 - [ ] No secrets or API keys committed
@@ -201,7 +201,7 @@ import { Button } from "@calcom/ui";
 - Propose a short plan for complex tasks
 - Open a draft PR with notes if unsure about approach
 - Fix type errors before test failures - they're often the root cause
-- Run `yarn prisma generate` if you see missing enum/type errors
+- Run `bun run prisma generate` if you see missing enum/type errors
 
 ## Extended Documentation
 
@@ -211,3 +211,21 @@ For detailed information, see the `agents/` directory:
 - **[agents/commands.md](agents/commands.md)** - Complete command reference
 - **[agents/knowledge-base.md](agents/knowledge-base.md)** - Domain knowledge and best practices
 - **[agents/coding-standards.md](agents/coding-standards.md)** - Coding standards with examples
+
+## Future Work / TODOs
+
+### Platform Package Cleanup (Optional)
+
+If you don't need the Platform API (external REST API for embedding), remove these:
+
+- [ ] Remove `packages/platform/atoms` - Embeddable React components
+- [ ] Remove `packages/platform/examples` - Example apps for atoms
+- [ ] Remove `packages/platform/libraries` - Platform API libraries
+- [ ] Remove `packages/platform/utils` - Platform utilities (not used elsewhere)
+- [ ] Remove `example-apps` directory - External example apps
+- [ ] Remove `.github/workflows/atoms-production-build.yml`
+- [ ] Remove `.github/workflows/e2e-atoms.yml`
+- [ ] Update root `package.json` workspaces to remove platform references
+- [ ] Update `.changeset/config.json` to remove `@calcom/platform-libraries` from ignore
+
+**Keep:** `packages/platform/enums`, `packages/platform/types`, `packages/platform/constants` - these are used by the core web app for shared type definitions.

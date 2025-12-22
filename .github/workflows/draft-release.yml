@@ -53,12 +53,12 @@ jobs:
           git config --local user.email "$USER_EMAIL"
           git config --local user.name "${{ github.actor }}"
 
-      - uses: ./.github/actions/yarn-install
+      - uses: ./.github/actions/bun-install
 
       - name: Bump version
         run: |
           cd apps/web
-          yarn version ${{ inputs.next_version }}
+          bun run version ${{ inputs.next_version }}
 
       - name: Commit changes
         run: |

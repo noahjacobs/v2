@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM node:20 AS builder
+FROM --platform=$BUILDPLATFORM oven/bun:1 AS builder
 
 WORKDIR /calcom
 
@@ -34,32 +34,30 @@ ENV NEXT_PUBLIC_WEBAPP_URL=http://NEXT_PUBLIC_WEBAPP_URL_PLACEHOLDER \
     BUILD_STANDALONE=true \
     CSP_POLICY=$CSP_POLICY
 
-COPY package.json yarn.lock .yarnrc.yml playwright.config.ts turbo.json i18n.json ./
-COPY .yarn ./.yarn
+COPY package.json bun.lock playwright.config.ts turbo.json i18n.json ./
+COPY patches ./patches
 COPY apps/web ./apps/web
-COPY apps/api/v2 ./apps/api/v2
 COPY packages ./packages
 COPY tests ./tests
 
-RUN yarn config set httpTimeout 1200000
-RUN npx turbo prune --scope=@calcom/web --scope=@calcom/trpc --docker
-RUN yarn install
+RUN bunx turbo prune --scope=@calcom/web --scope=@calcom/trpc --docker
+RUN bun install
 # Build and make embed servable from web/public/embed folder
-RUN yarn workspace @calcom/trpc run build
-RUN yarn --cwd packages/embeds/embed-core workspace @calcom/embed-core run build
-RUN yarn --cwd apps/web workspace @calcom/web run build
-RUN rm -rf node_modules/.cache .yarn/cache apps/web/.next/cache
+RUN bun --filter @calcom/trpc run build
+RUN cd packages/embeds/embed-core && bun run build
+RUN cd apps/web && bun run build
+RUN rm -rf node_modules/.cache apps/web/.next/cache
 
-FROM node:20 AS builder-two
+FROM oven/bun:1 AS builder-two
 
 WORKDIR /calcom
 ARG NEXT_PUBLIC_WEBAPP_URL=http://localhost:3000
 
 ENV NODE_ENV=production
 
-COPY package.json .yarnrc.yml turbo.json i18n.json ./
-COPY .yarn ./.yarn
-COPY --from=builder /calcom/yarn.lock ./yarn.lock
+COPY package.json turbo.json i18n.json ./
+COPY patches ./patches
+COPY --from=builder /calcom/bun.lock ./bun.lock
 COPY --from=builder /calcom/node_modules ./node_modules
 COPY --from=builder /calcom/packages ./packages
 COPY --from=builder /calcom/apps/web ./apps/web
@@ -74,7 +72,7 @@ ENV NEXT_PUBLIC_WEBAPP_URL=$NEXT_PUBLIC_WEBAPP_URL \
 
 RUN scripts/replace-placeholder.sh http://NEXT_PUBLIC_WEBAPP_URL_PLACEHOLDER ${NEXT_PUBLIC_WEBAPP_URL}
 
-FROM node:20 AS runner
+FROM oven/bun:1 AS runner
 
 WORKDIR /calcom
 

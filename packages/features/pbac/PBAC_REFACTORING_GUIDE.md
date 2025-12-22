@@ -253,7 +253,7 @@ const canSeeMembers = canListMembers; // Use permission-specific name
 
 ### For All Refactoring
 
-- Run `yarn type-check:ci --force`
+- Run `bun run type-check:ci --force`
 - Ensure existing privacy checks remain intact
 - Test with users who have different permission levels
 

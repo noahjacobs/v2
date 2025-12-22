@@ -511,7 +511,7 @@ export default function Success(props: PageProps) {
                       )}
                       {giphyImage && !needsConfirmation && isReschedulable && (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={giphyImage} className="w-full rounded-lg" alt="Gif from Giphy" />
+                        (<img src={giphyImage} className="w-full rounded-lg" alt="Gif from Giphy" />)
                       )}
                       <div
                         className={classNames(
@@ -805,8 +805,9 @@ export default function Success(props: PageProps) {
                               <Link
                                 href={`/auth/login?callbackUrl=${encodeURIComponent(
                                   `/booking/${bookingInfo?.uid}`
-                                )}`}
-                                legacyBehavior>
+                                )}`}>
+                                {/* @next-codemod-error This Link previously used the now removed `legacyBehavior` prop, and has a child that might not be an anchor. The codemod bailed out of lifting the child props to the Link. Check that the child component does not render an anchor, and potentially move the props manually to Link. */
+                                }
                                 {t("login")}
                               </Link>
                             </span>
@@ -845,8 +846,9 @@ export default function Success(props: PageProps) {
                                               currentUserEmail
                                                 ? `?rescheduledBy=${encodeURIComponent(currentUserEmail)}`
                                                 : ""
-                                            }`}
-                                            legacyBehavior>
+                                            }`}>
+                                            {/* @next-codemod-error This Link previously used the now removed `legacyBehavior` prop, and has a child that might not be an anchor. The codemod bailed out of lifting the child props to the Link. Check that the child component does not render an anchor, and potentially move the props manually to Link. */
+                                            }
                                             {t("reschedule")}
                                           </Link>
                                         </span>

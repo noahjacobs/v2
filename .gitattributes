@@ -1,4 +1,4 @@
-/.yarn/**            linguist-vendored
-/.yarn/releases/*    binary
-/.yarn/plugins/**/*  binary
+/.bun/**            linguist-vendored
+/.bun/releases/*    binary
+/.bun/plugins/**/*  binary
 /.pnp.*              binary linguist-generated

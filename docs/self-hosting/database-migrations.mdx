@@ -5,11 +5,11 @@ icon: "upload"
 
 As described in the [upgrade guide](/self-hosting/upgrading), you should use the 
 ```
-yarn workspace @calcom/prisma db-migrate
+bun --filter @calcom/prisma run db-migrate
 ```
 or 
 ```
-yarn workspace @calcom/prisma db-deploy
+bun --filter @calcom/prisma run db-deploy
 ``` 
 command to update the database.
 
@@ -22,7 +22,7 @@ If you are modifying the codebase and make a change to the `schema.prisma` file,
 To create a migration for your previously changed `schema.prisma`, simply run the following:
 
 ```
-yarn workspace @calcom/prisma db-migrate
+bun --filter @calcom/prisma run db-migrate
 ```
 
 Now, you must create a short name for your migration to describe what changed (for example, "user_add_email_verified"). Then just add and commit it with the corresponding code that uses your new database schema.
@@ -46,7 +46,7 @@ In order to fix this, we need to tell Prisma which migrations have already been 
 This can be done by running the following command, replacing `migration_name` with each migration that you have already applied:
 
 ```
-yarn prisma migrate resolve --applied migration_name
+bun run prisma migrate resolve --applied migration_name
 ```
 
 You will need to run the command for each migration that you want to mark as applied.

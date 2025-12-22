@@ -29,8 +29,9 @@ function Stepper<T extends DefaultStep>(props: {
                 <Link
                   href={props.disableSteps ? "#" : `${href}?step=${index + 1}`}
                   shallow
-                  replace
-                  legacyBehavior>
+                  replace>
+                  {/* @next-codemod-error This Link previously used the now removed `legacyBehavior` prop, and has a child that might not be an anchor. The codemod bailed out of lifting the child props to the Link. Check that the child component does not render an anchor, and potentially move the props manually to Link. */
+                  }
                   {index + 1 < props.step ? (
                     <a className="hover:bg-inverted block h-2.5 w-2.5 rounded-full bg-gray-600">
                       <span className="sr-only">{mapStep.title}</span>

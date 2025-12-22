@@ -28,7 +28,7 @@ const IS_EMBED_REACT_TEST = process.argv.some((a) => a.startsWith("--project=@ca
 const webServer: PlaywrightTestConfig["webServer"] = [
   {
     command:
-      "NEXT_PUBLIC_IS_E2E=1 NODE_OPTIONS='--dns-result-order=ipv4first' yarn workspace @calcom/web start -p 3000",
+      "NEXT_PUBLIC_IS_E2E=1 NODE_OPTIONS='--dns-result-order=ipv4first' bun --filter @calcom/web run start -p 3000",
     port: 3000,
     timeout: 60_000,
     reuseExistingServer: !process.env.CI,
@@ -39,7 +39,7 @@ if (IS_EMBED_TEST) {
   ensureAppServerIsReadyToServeEmbed(webServer[0]);
 
   webServer.push({
-    command: "yarn workspace @calcom/embed-core dev",
+    command: "bun --filter @calcom/embed-core run dev",
     port: 3100,
     timeout: 60_000,
     reuseExistingServer: !process.env.CI,
@@ -50,7 +50,7 @@ if (IS_EMBED_REACT_TEST) {
   ensureAppServerIsReadyToServeEmbed(webServer[0]);
 
   webServer.push({
-    command: "yarn workspace @calcom/embed-react dev",
+    command: "bun --filter @calcom/embed-react run dev",
     port: 3101,
     timeout: 60_000,
     reuseExistingServer: !process.env.CI,

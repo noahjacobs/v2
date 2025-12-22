@@ -115,7 +115,7 @@ Here is what you need to be able to run Cal.com.
 
 - Node.js (Version: >=18.x)
 - PostgreSQL (Version: >=13.x)
-- Yarn _(recommended)_
+- Bun _(recommended)_ - Install from https://bun.sh
 
 > If you want to enable any of the available integrations, you may want to obtain additional credentials for each one. More details on this can be found below under the [integrations section](#integrations).
 
@@ -138,10 +138,10 @@ Here is what you need to be able to run Cal.com.
    cd cal.com
    ```
 
-3. Install packages with yarn
+3. Install packages with bun
 
    ```sh
-   yarn
+   bun install
    ```
 
 4. Set up your `.env` file
@@ -165,13 +165,13 @@ Here is what you need to be able to run Cal.com.
 
    You can install nvm from [here](https://github.com/nvm-sh/nvm).
 
-#### Quick start with `yarn dx`
+#### Quick start with `bun run dx`
 
 > - **Requires Docker and Docker Compose to be installed**
 > - Will start a local Postgres instance with a few test users - the credentials will be logged in the console
 
 ```sh
-yarn dx
+bun run dx
 ```
 
 #### Development tip
@@ -248,13 +248,13 @@ for Logger level to be set at info, for example.
    In a development environment, run:
 
    ```sh
-   yarn workspace @calcom/prisma db-migrate
+   bun --filter @calcom/prisma run db-migrate
    ```
 
    In a production environment, run:
 
    ```sh
-   yarn workspace @calcom/prisma db-deploy
+   bun --filter @calcom/prisma run db-deploy
    ```
 
 1. Run [mailhog](https://github.com/mailhog/MailHog) to view emails sent during development
@@ -269,7 +269,7 @@ for Logger level to be set at info, for example.
 1. Run (in development mode)
 
    ```sh
-   yarn dev
+   bun run dev
    ```
 
 #### Setting up your first user
@@ -279,7 +279,7 @@ for Logger level to be set at info, for example.
 1. Open [Prisma Studio](https://prisma.io/studio) to look at or modify the database content:
 
    ```sh
-   yarn db-studio
+   bun run db-studio
    ```
 
 1. Click on the `User` model to add a new user record.
@@ -293,7 +293,7 @@ Seed the local db by running
 
 ```sh
 cd packages/prisma
-yarn db-seed
+bun run db-seed
 ```
 
 The above command will populate the local db with dummy users.
@@ -304,17 +304,17 @@ Be sure to set the environment variable `NEXTAUTH_URL` to the correct value. If 
 
 ```sh
 # In a terminal just run:
-yarn test-e2e
+bun run test-e2e
 
 # To open the last HTML report run:
-yarn playwright show-report test-results/reports/playwright-html-report
+bunx playwright show-report test-results/reports/playwright-html-report
 ```
 
 #### Resolving issues
 
 ##### E2E test browsers not installed
 
-Run `npx playwright install` to download test browsers and resolve the error below when running `yarn test-e2e`:
+Run `npx playwright install` to download test browsers and resolve the error below when running `bun run test-e2e`:
 
 ```
 Executable doesn't exist at /Users/alice/Library/Caches/ms-playwright/chromium-1048/chrome-mac/Chromium.app/Contents/MacOS/Chromium
@@ -331,7 +331,7 @@ Executable doesn't exist at /Users/alice/Library/Caches/ms-playwright/chromium-1
 1. Check if dependencies got added/updated/removed
 
    ```sh
-   yarn
+   bun install
    ```
 
 1. Apply database migrations by running <b>one of</b> the following commands:
@@ -339,7 +339,7 @@ Executable doesn't exist at /Users/alice/Library/Caches/ms-playwright/chromium-1
    In a development environment, run:
 
    ```sh
-   yarn workspace @calcom/prisma db-migrate
+   bun --filter @calcom/prisma run db-migrate
    ```
 
    (This can clear your development database in some cases)
@@ -347,26 +347,26 @@ Executable doesn't exist at /Users/alice/Library/Caches/ms-playwright/chromium-1
    In a production environment, run:
 
    ```sh
-   yarn workspace @calcom/prisma db-deploy
+   bun --filter @calcom/prisma run db-deploy
    ```
 
 1. Check for `.env` variables changes
 
    ```sh
-   yarn predev
+   bun run predev
    ```
 
 1. Start the server. In a development environment, just do:
 
    ```sh
-   yarn dev
+   bun run dev
    ```
 
    For a production build, run for example:
 
    ```sh
-   yarn build
-   yarn start
+   bun run build
+   bun run start
    ```
 
 1. Enjoy the new version.
@@ -655,7 +655,7 @@ You can deploy Cal.com on [Northflank](https://northflank.com) using the button 
 
 Currently Vercel Pro Plan is required to be able to Deploy this application with Vercel, due to limitations on the number of serverless functions on the free plan.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcalcom%2Fcal.com&env=DATABASE_URL,NEXT_PUBLIC_WEBAPP_URL,NEXTAUTH_URL,NEXTAUTH_SECRET,CRON_API_KEY,CALENDSO_ENCRYPTION_KEY&envDescription=See%20all%20available%20env%20vars&envLink=https%3A%2F%2Fgithub.com%2Fcalcom%2Fcal.com%2Fblob%2Fmain%2F.env.example&project-name=cal&repo-name=cal.com&build-command=cd%20../..%20%26%26%20yarn%20build&root-directory=apps%2Fweb%2F)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcalcom%2Fcal.com&env=DATABASE_URL,NEXT_PUBLIC_WEBAPP_URL,NEXTAUTH_URL,NEXTAUTH_SECRET,CRON_API_KEY,CALENDSO_ENCRYPTION_KEY&envDescription=See%20all%20available%20env%20vars&envLink=https%3A%2F%2Fgithub.com%2Fcalcom%2Fcal.com%2Fblob%2Fmain%2F.env.example&project-name=cal&repo-name=cal.com&build-command=cd%20../..%20%26%26%20bun%20run%20build&root-directory=apps%2Fweb%2F)
 
 ### Render
 
@@ -777,7 +777,7 @@ You can repopulate the App store by running
 
 ```
 cd packages/prisma
-yarn seed-app-store
+bun run seed-app-store
 ```
 
 You will need to complete a few more steps to activate Google Calendar App.

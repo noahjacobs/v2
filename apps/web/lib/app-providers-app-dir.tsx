@@ -5,7 +5,6 @@ import { ThemeProvider } from "next-themes";
 import type { AppProps as NextAppProps } from "next/app";
 import type { ReadonlyURLSearchParams } from "next/navigation";
 import { usePathname, useSearchParams } from "next/navigation";
-import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import DynamicPostHogProvider from "@calcom/features/ee/event-tracking/lib/posthog/providerDynamic";
 import DynamicPostHogPageView from "@calcom/features/ee/event-tracking/lib/posthog/web/pageViewDynamic";
@@ -17,7 +16,6 @@ import { useFlags } from "@calcom/features/flags/hooks";
 
 import useIsBookingPage from "@lib/hooks/useIsBookingPage";
 import useIsThemeSupported from "@lib/hooks/useIsThemeSupported";
-import { useNuqsParams } from "@lib/hooks/useNuqsParams";
 import type { WithLocaleProps } from "@lib/withLocale";
 
 import type { PageWrapperProps } from "@components/PageWrapperAppDir";
@@ -112,7 +110,6 @@ const AppProviders = (props: PageWrapperProps) => {
   // No need to have intercom on public pages - Good for Page Performance
   const isBookingPage = useIsBookingPage();
   const isThemeSupported = useIsThemeSupported();
-  const nuqsParams = useNuqsParams();
 
   const RemainingProviders = (
     <>
@@ -122,17 +119,15 @@ const AppProviders = (props: PageWrapperProps) => {
           nonce={props.nonce}
           isThemeSupported={isThemeSupported}
           isBookingPage={props.isBookingPage || isBookingPage}>
-          <NuqsAdapter {...nuqsParams}>
-            <FeatureFlagsProvider>
-              {props.isBookingPage || isBookingPage ? (
+          <FeatureFlagsProvider>
+            {props.isBookingPage || isBookingPage ? (
+              <OrgBrandProvider>{props.children}</OrgBrandProvider>
+            ) : (
+              <DynamicIntercomProvider>
                 <OrgBrandProvider>{props.children}</OrgBrandProvider>
-              ) : (
-                <DynamicIntercomProvider>
-                  <OrgBrandProvider>{props.children}</OrgBrandProvider>
-                </DynamicIntercomProvider>
-              )}
-            </FeatureFlagsProvider>
-          </NuqsAdapter>
+              </DynamicIntercomProvider>
+            )}
+          </FeatureFlagsProvider>
         </CalcomThemeProvider>
       </TooltipProvider>
     </>

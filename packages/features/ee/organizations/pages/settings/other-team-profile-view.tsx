@@ -274,7 +274,7 @@ const OtherTeamProfileView = () => {
                 )}
               </div>
               <div className="">
-                <Link href={permalink} passHref={true} target="_blank">
+                <Link href={permalink} target="_blank">
                   <LinkIconButton Icon="external-link">{t("preview")}</LinkIconButton>
                 </Link>
                 <LinkIconButton

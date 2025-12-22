@@ -1,0 +1,7 @@
+[install]
+# Use node_modules for compatibility with existing tooling
+node_modules = true
+
+[install.lockfile]
+# Generate text-based lockfile (default in Bun 1.2+)
+save = true

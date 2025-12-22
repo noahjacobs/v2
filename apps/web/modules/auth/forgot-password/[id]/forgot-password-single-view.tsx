@@ -45,7 +45,9 @@ function Expired() {
           <h2 className="text-emphasis text-center text-3xl font-extrabold">{t("request_is_expired")}</h2>
         </div>
         <p>{t("request_is_expired_instructions")}</p>
-        <Link href="/auth/forgot-password" passHref legacyBehavior>
+        <Link href="/auth/forgot-password">
+          {/* @next-codemod-error This Link previously used the now removed `legacyBehavior` prop, and has a child that might not be an anchor. The codemod bailed out of lifting the child props to the Link. Check that the child component does not render an anchor, and potentially move the props manually to Link. */
+          }
           <button
             type="button"
             className="flex w-full justify-center px-4 py-2 text-sm font-medium text-blue-600 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
@@ -147,7 +149,6 @@ function PasswordResetForm({
           label={t("new_password")}
         />
       </div>
-
       <div>
         <Button
           loading={loading}

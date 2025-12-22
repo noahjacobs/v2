@@ -11,7 +11,7 @@ Cal.com runs with pretty minimal hardware requirements by itself. The most inten
 
 Cal.com works with a very large range of operating systems, as it only requires JavaScript execution to run. **Cal.com is known to work well with Windows, Mac, Linux and BSD.** Although they do work well on all of them, for production deployments we would suggest Linux as the ideal platform. Any operating system that runs Node.js should be able to work too, but these are some of the common operating systems that we know work well.
 
-To run Cal.com, you need to install a few things. **Node.js, yarn, Git and PostgreSQL**. We use **Prisma** for database maintenance, and is one of the dependencies. We won’t publish installation guides for these as they have their own resources available on the internet. If you're on Linux/BSD, all of these things should be readily available on your package manager. Your best bet is searching for something like **Debian 12 PostgreSQL**, which will give you a guide to installing and configuring PostgreSQL on Debian Linux 12.
+To run Cal.com, you need to install a few things. **Node.js, Bun, Git and PostgreSQL**. We use **Prisma** for database maintenance, and is one of the dependencies. We won’t publish installation guides for these as they have their own resources available on the internet. If you're on Linux/BSD, all of these things should be readily available on your package manager. Your best bet is searching for something like **Debian 12 PostgreSQL**, which will give you a guide to installing and configuring PostgreSQL on Debian Linux 12.
 
 <Info>
 To ensure optimal performance and compatibility, we highly recommend using Node.js version 18 for your development environment. This version provides the best balance of stability, features, and security for this project. Please make sure to update your Node.js installation if necessary.
@@ -37,7 +37,7 @@ git clone -c core.symlinks=true https://github.com/calcom/cal.com.git
     ```
     and run
     ```
-    yarn
+    bun install
     ```
     to install all of the dependencies. Essentially, dependencies are just things that Cal.com needs to install to be able to work.
 
@@ -63,8 +63,8 @@ For preview deployments on **Vercel**, please leave the following environment va
 For a production build, **please make sure** to set up [E2E testing](/developing/local-development#e2e-testing) and [Upgrading](/self-hosting/upgrading) the database from earlier version, and the proceed to build as follows:
 
 ```
-yarn build
-yarn start
+bun run build
+bun run start
 ```
 
 <Warning> Please make sure to upgrade your database before you build for production </Warning>
@@ -86,34 +86,6 @@ At cal.com, the cron jobs are found in the following directory:
 We recommend using the admin UI/wizard instead of the seeder to enable app store apps
 </Info>
 
-
-## API
-
-#### Step 1
-
-Copy the .env files from their respective example files:
-
-```
-cp apps/api/v2/.env.example apps/api/v2/.env
-cp .env.example .env
-```
-
-#### Step 2
-
-Install packages with yarn:
-
-```
-yarn
-```
-
-### Running API server
-
-Build & Run the API V2 with yarn:
-
-```
-yarn workspace @calcom/api-v2 build
-yarn workspace @calcom/api-v2 start
-```
 
 ## One Click Deployments
 
@@ -145,7 +117,7 @@ yarn workspace @calcom/api-v2 start
 </a>
 
 ### Vercel
-<a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcalcom%2Fcal.com&env=DATABASE_URL,NEXT_PUBLIC_WEBAPP_URL,NEXTAUTH_URL,NEXTAUTH_SECRET,CRON_API_KEY,CALENDSO_ENCRYPTION_KEY&envDescription=See%20all%20available%20env%20vars&envLink=https%3A%2F%2Fgithub.com%2Fcalcom%2Fcal.com%2Fblob%2Fmain%2F.env.example&project-name=cal&repo-name=cal.com&build-command=cd%20../..%20%26%26%20yarn%20build&root-directory=apps%2Fweb%2F" target="_blank">
+<a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcalcom%2Fcal.com&env=DATABASE_URL,NEXT_PUBLIC_WEBAPP_URL,NEXTAUTH_URL,NEXTAUTH_SECRET,CRON_API_KEY,CALENDSO_ENCRYPTION_KEY&envDescription=See%20all%20available%20env%20vars&envLink=https%3A%2F%2Fgithub.com%2Fcalcom%2Fcal.com%2Fblob%2Fmain%2F.env.example&project-name=cal&repo-name=cal.com&build-command=cd%20../..%20%26%26%20bun run%20build&root-directory=apps%2Fweb%2F" target="_blank">
   <img src="https://vercel.com/button" noZoom alt="Deploy with Vercel" />
 </a>
 

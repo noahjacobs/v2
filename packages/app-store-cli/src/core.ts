@@ -125,8 +125,8 @@ export const BaseAppFork = {
         .replace(/_DESCRIPTION_/g, description)
         .replace(/_APP_DIR_/g, slug)
     );
-    // New monorepo package has been added, so we need to run yarn again
-    await execSync("yarn");
+    // New monorepo package has been added, so we need to run bun install again
+    await execSync("bun install");
   },
 
   delete: async function ({ slug, isTemplate }: { slug: string; isTemplate: boolean }) {
@@ -136,5 +136,5 @@ export const BaseAppFork = {
 };
 
 export const generateAppFiles = async () => {
-  await execSync(`yarn ts-node --transpile-only src/build.ts`);
+  await execSync(`bunx ts-node --transpile-only src/build.ts`);
 };

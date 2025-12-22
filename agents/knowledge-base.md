@@ -5,12 +5,12 @@
 The whole thing is a monorepo. You need to be working in the apps/web folder.
 
 Linting and Formatting
-- Run lint with report generation: `yarn lint:report`
-- Run type checking: `yarn type-check:ci --force`
-- Run auto-fix: `yarn lint -- --fix`
+- Run lint with report generation: `bun run lint:report`
+- Run type checking: `bun run type-check:ci --force`
+- Run auto-fix: `bun run lint -- --fix`
 
 Development
-- Install dependencies: `yarn`
+- Install dependencies: `bun install`
 - Set up environment:
   - Copy `.env.example` to `.env`
   - Generate keys with `openssl rand -base64 32` for both `NEXTAUTH_SECRET` and `CALENDSO_ENCRYPTION_KEY`
@@ -18,8 +18,8 @@ Development
   - Set DATABASE_DIRECT_URL to the same value as DATABASE_URL
 
 Database Setup
-- Development: `yarn workspace @calcom/prisma db-migrate`
-- Production: `yarn workspace @calcom/prisma db-deploy`
+- Development: `bun --filter @calcom/prisma run db-migrate`
+- Production: `bun --filter @calcom/prisma run db-deploy`
 
 When setting up local development database, it'll create a bunch of users for you. The passwords are the same as the username. e.g. 'free:free' and 'pro:pro'
 
@@ -40,7 +40,7 @@ Logging
 
 ## When addressing issues in the Cal.com repository
 
-When working on the Cal.com repository, prioritize fixing type issues before addressing failing tests. Running `yarn type-check:ci --force` to identify and fix TypeScript errors should be done first, as these errors are often the root cause of test failures. Only after resolving type issues should you move on to fixing failing tests with `TZ=UTC yarn test`.
+When working on the Cal.com repository, prioritize fixing type issues before addressing failing tests. Running `bun run type-check:ci --force` to identify and fix TypeScript errors should be done first, as these errors are often the root cause of test failures. Only after resolving type issues should you move on to fixing failing tests with `TZ=UTC bun run test`.
 
 ## When creating pull requests
 
@@ -56,8 +56,8 @@ When fixing failing tests in the Cal.com repository, take an incremental approac
 
 To identify and fix issues in the Cal.com codebase:
 
-1. Run `yarn type-check:ci --force` to identify TypeScript type errors and get fresh results always, bypassing any caching issues
-2. Run `yarn test` to identify failing unit tests
+1. Run `bun run type-check:ci --force` to identify TypeScript type errors and get fresh results always, bypassing any caching issues
+2. Run `bun run test` to identify failing unit tests
 3. Address both type errors and failing tests before considering the task complete
 4. Type errors often need to be fixed first as they may be causing the test failures
 
@@ -75,9 +75,9 @@ To trigger workflows in Cal.com, use the `scheduleWorkflowReminders` function. T
 
 ## When making changes to Prisma schema in Cal.com
 
-After making changes to the Prisma schema in Cal.com and creating migrations, you need to run `yarn prisma generate` to update the TypeScript types. This is especially important when switching Node.js versions, after adding new fields to models, or after pulling changes that include Prisma schema updates, as it ensures the TypeScript compiler recognizes the updated schema structure. If you encounter errors related to missing enum values (like CreationSource.WEBAPP), running `yarn prisma generate` will typically resolve these issues by regenerating the TypeScript types from the schema.
+After making changes to the Prisma schema in Cal.com and creating migrations, you need to run `bun run prisma generate` to update the TypeScript types. This is especially important when switching Node.js versions, after adding new fields to models, or after pulling changes that include Prisma schema updates, as it ensures the TypeScript compiler recognizes the updated schema structure. If you encounter errors related to missing enum values (like CreationSource.WEBAPP), running `bun run prisma generate` will typically resolve these issues by regenerating the TypeScript types from the schema.
 
-If you encounter enum generator errors during the Prisma generate step (like "Cannot find module './enum-generator.ts'"), run `yarn install` first before trying to generate. This ensures all dependencies are properly installed before the generation process.
+If you encounter enum generator errors during the Prisma generate step (like "Cannot find module './enum-generator.ts'"), run `bun install` first before trying to generate. This ensures all dependencies are properly installed before the generation process.
 
 Whenever you change the schema.prisma file, remember to always consolidate migrations by squashing them as declared in the Prisma docs: https://www.prisma.io/docs/orm/prisma-migrate/workflows/squashing-migrations. This helps maintain a clean migration history and prevents accumulation of multiple migration files.
 
@@ -87,11 +87,11 @@ When asked to review a PR, focus on providing a clear summary of what the PR is 
 
 ## When running Playwright tests in the Cal.com repository
 
-Use the command format `PLAYWRIGHT_HEADLESS=1 yarn e2e [test-file.e2e.ts]` to run Playwright tests instead of the standard `yarn playwright test` command. This format includes the proper timezone setting, virtual display server, and uses the repository's e2e runner.
+Use the command format `PLAYWRIGHT_HEADLESS=1 bun run e2e [test-file.e2e.ts]` to run Playwright tests instead of the standard `bun run playwright test` command. This format includes the proper timezone setting, virtual display server, and uses the repository's e2e runner.
 
 ## When running tests in the Cal.com repository
 
-When running tests in the Cal.com repository, use the TZ=UTC environment variable (e.g., `TZ=UTC yarn test`) to ensure consistent timezone handling. This prevents timezone-related test failures that might occur when tests are run in different environments or by different developers with varying local timezone settings.
+When running tests in the Cal.com repository, use the TZ=UTC environment variable (e.g., `TZ=UTC bun run test`) to ensure consistent timezone handling. This prevents timezone-related test failures that might occur when tests are run in different environments or by different developers with varying local timezone settings.
 
 ## When working on calendar cache features in the Cal.com codebase
 
@@ -99,7 +99,7 @@ The calendar cache system follows specific patterns in `packages/features/calend
 
 ## When working on PRs in the Cal.com repository
 
-When making changes to the Cal.com codebase, always run type checks locally using `yarn type-check:ci` before concluding that CI failures are unrelated to your changes. Even if errors appear in files you haven't directly modified, your changes might still be causing type issues through dependencies or type inference. Compare type check results between the main branch and your feature branch to confirm whether you've introduced new type errors.
+When making changes to the Cal.com codebase, always run type checks locally using `bun run type-check:ci` before concluding that CI failures are unrelated to your changes. Even if errors appear in files you haven't directly modified, your changes might still be causing type issues through dependencies or type inference. Compare type check results between the main branch and your feature branch to confirm whether you've introduced new type errors.
 
 ## When working on type issues in the Cal.com repository
 
@@ -177,8 +177,8 @@ When working with imports in the Cal.com codebase, particularly in app-store int
 ## When working with tRPC components in the Cal.com repository
 
 When making changes that affect tRPC components or after pulling updates that modify tRPC-related files, you need to follow a specific build order:
-1. First run `yarn prisma generate` to ensure all database types are up-to-date
-2. Then run `cd packages/trpc && yarn build` to rebuild the tRPC package
+1. First run `bun run prisma generate` to ensure all database types are up-to-date
+2. Then run `cd packages/trpc && bun run build` to rebuild the tRPC package
 This sequence ensures that type definitions are properly generated before building the tRPC components that depend on them, preventing type errors during compilation.
 
 ## When working with workflows or webhooks in the Cal.com repository
@@ -187,7 +187,7 @@ Workflows and webhooks are two completely separate features in Cal.com with diff
 
 ## When adding new feature flags to the Cal.com repository
 
-To seed new feature flags in Cal.com, create a Prisma migration using the command `yarn prisma migrate dev --create-only --name seed_[feature_name]_feature`. The migration file should be placed in `packages/prisma/migrations/` with a timestamp prefix format like `20250724210733_seed_calendar_cache_sql_features/migration.sql`. Follow the pattern from existing feature seeding migrations like `packages/prisma/migrations/20241216000000_add_calendar_cache_serve/migration.sql` for the SQL structure. The migration should INSERT the new features into the `Feature` table with appropriate type (like `OPERATIONAL`) and default `enabled` status for manual team enablement.
+To seed new feature flags in Cal.com, create a Prisma migration using the command `bun run prisma migrate dev --create-only --name seed_[feature_name]_feature`. The migration file should be placed in `packages/prisma/migrations/` with a timestamp prefix format like `20250724210733_seed_calendar_cache_sql_features/migration.sql`. Follow the pattern from existing feature seeding migrations like `packages/prisma/migrations/20241216000000_add_calendar_cache_serve/migration.sql` for the SQL structure. The migration should INSERT the new features into the `Feature` table with appropriate type (like `OPERATIONAL`) and default `enabled` status for manual team enablement.
 
 ## When adding new UI elements or text strings to Cal.com
 
@@ -375,7 +375,7 @@ export interface BookingDTO {
 ### Prisma boundaries
 
 - **Allowed**: `packages/prisma`, repository implementations (`packages/features/**/repositories/*Repository.ts`), and low-level data access infrastructure.
-- **Not allowed**: `packages/features/**` business logic (non-repository), `packages/trpc/**` handlers, `apps/web/**`, `apps/api/v2/**` services/controllers, and workflow/webhook/service layers.
+- **Not allowed**: `packages/features/**` business logic (non-repository), `packages/trpc/**` handlers, `apps/web/**` services/controllers, and workflow/webhook/service layers.
 
 ### Method Naming Rules
 

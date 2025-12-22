@@ -18,7 +18,7 @@ jobs:
         id: cache-docs-build
         env:
           cache-name: docs-build
-          key-1: ${{ hashFiles('yarn.lock') }}
+          key-1: ${{ hashFiles('bun.lock') }}
           key-2: ${{ hashFiles('docs/**.*', '!**/node_modules') }}
           key-3: ${{ github.event.pull_request.number || github.ref }}
           key-4: ${{ github.sha }}

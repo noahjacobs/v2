@@ -6,7 +6,9 @@
   "private": true,
   "scripts": {
     "build": "tsc --build --force tsconfig.json",
-    "build:watch": "tsc --build --force ./tsconfig.json --watch",
-    "post-install": "yarn build"
+    "build:watch": "tsc --build --force ./tsconfig.json --watch"
+  },
+  "devDependencies": {
+    "@calcom/tsconfig": "workspace:*"
   }
 }
