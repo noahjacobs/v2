@@ -24,6 +24,7 @@ const SETUP_VIEW_SETPS = {
 export type PageProps = inferSSRProps<typeof getServerSideProps>;
 export function Setup(props: PageProps) {
   const [hasPickedAGPLv3, setHasPickedAGPLv3] = useState(false);
+  const [adminUserCreated, setAdminUserCreated] = useState(props.userCount > 0);
   const { t } = useLocale();
   const router = useRouter();
   const [licenseOption, setLicenseOption] = useState<"FREE" | "EXISTING">(
@@ -52,6 +53,7 @@ export function Setup(props: PageProps) {
             setIsPending(true);
           }}
           onSuccess={() => {
+            setAdminUserCreated(true);
             // If there's already a valid license or user picked AGPLv3, skip to apps step
             if (props.hasValidLicense || hasPickedAGPLv3) {
               nav.onNext();
@@ -63,7 +65,7 @@ export function Setup(props: PageProps) {
           onError={() => {
             setIsPending(false);
           }}
-          userCount={props.userCount}
+          adminUserCreated={adminUserCreated}
           nav={nav}
         />
       ),

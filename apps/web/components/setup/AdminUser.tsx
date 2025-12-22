@@ -13,9 +13,11 @@ import { Button } from "@calcom/ui/components/button";
 import { EmptyScreen } from "@calcom/ui/components/empty-screen";
 import { EmailField, Label, TextField, PasswordField } from "@calcom/ui/components/form";
 
-export const AdminUserContainer = (props: React.ComponentProps<typeof AdminUser> & { userCount: number }) => {
+export const AdminUserContainer = (
+  props: React.ComponentProps<typeof AdminUser> & { adminUserCreated: boolean }
+) => {
   const { t } = useLocale();
-  if (props.userCount > 0)
+  if (props.adminUserCreated)
     return (
       <form
         id="wizard-step-1"
@@ -30,6 +32,11 @@ export const AdminUserContainer = (props: React.ComponentProps<typeof AdminUser>
           headline={t("admin_user_created")}
           description={t("admin_user_created_description")}
         />
+        <div className="flex justify-end">
+          <Button type="submit" color="primary">
+            {t("next")}
+          </Button>
+        </div>
       </form>
     );
   return <AdminUser {...props} />;
