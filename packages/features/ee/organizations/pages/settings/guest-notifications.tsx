@@ -1,6 +1,5 @@
 "use client";
 
-import LicenseRequired from "@calcom/features/ee/common/components/LicenseRequired";
 import { trpc } from "@calcom/trpc/react";
 import { SkeletonContainer, SkeletonText, SkeletonButton } from "@calcom/ui/components/skeleton";
 
@@ -32,33 +31,31 @@ const GuestNotificationsView = ({ permissions }: { permissions: { canRead: boole
   if (!currentOrg.organizationSettings) return null;
 
   return (
-    <LicenseRequired>
-      <div className="space-y-8">
-        <DisableGuestBookingEmailsSetting
-          orgId={currentOrg.id}
-          settings={{
-            disableAttendeeConfirmationEmail:
-              currentOrg.organizationSettings.disableAttendeeConfirmationEmail ?? false,
-            disableAttendeeCancellationEmail:
-              currentOrg.organizationSettings.disableAttendeeCancellationEmail ?? false,
-            disableAttendeeRescheduledEmail:
-              currentOrg.organizationSettings.disableAttendeeRescheduledEmail ?? false,
-            disableAttendeeRequestEmail: currentOrg.organizationSettings.disableAttendeeRequestEmail ?? false,
-            disableAttendeeReassignedEmail:
-              currentOrg.organizationSettings.disableAttendeeReassignedEmail ?? false,
-            disableAttendeeAwaitingPaymentEmail:
-              currentOrg.organizationSettings.disableAttendeeAwaitingPaymentEmail ?? false,
-            disableAttendeeRescheduleRequestEmail:
-              currentOrg.organizationSettings.disableAttendeeRescheduleRequestEmail ?? false,
-            disableAttendeeLocationChangeEmail:
-              currentOrg.organizationSettings.disableAttendeeLocationChangeEmail ?? false,
-            disableAttendeeNewEventEmail:
-              currentOrg.organizationSettings.disableAttendeeNewEventEmail ?? false,
-          }}
-          readOnly={isDisabled}
-        />
-      </div>
-    </LicenseRequired>
+    <div className="space-y-8">
+      <DisableGuestBookingEmailsSetting
+        orgId={currentOrg.id}
+        settings={{
+          disableAttendeeConfirmationEmail:
+            currentOrg.organizationSettings.disableAttendeeConfirmationEmail ?? false,
+          disableAttendeeCancellationEmail:
+            currentOrg.organizationSettings.disableAttendeeCancellationEmail ?? false,
+          disableAttendeeRescheduledEmail:
+            currentOrg.organizationSettings.disableAttendeeRescheduledEmail ?? false,
+          disableAttendeeRequestEmail: currentOrg.organizationSettings.disableAttendeeRequestEmail ?? false,
+          disableAttendeeReassignedEmail:
+            currentOrg.organizationSettings.disableAttendeeReassignedEmail ?? false,
+          disableAttendeeAwaitingPaymentEmail:
+            currentOrg.organizationSettings.disableAttendeeAwaitingPaymentEmail ?? false,
+          disableAttendeeRescheduleRequestEmail:
+            currentOrg.organizationSettings.disableAttendeeRescheduleRequestEmail ?? false,
+          disableAttendeeLocationChangeEmail:
+            currentOrg.organizationSettings.disableAttendeeLocationChangeEmail ?? false,
+          disableAttendeeNewEventEmail:
+            currentOrg.organizationSettings.disableAttendeeNewEventEmail ?? false,
+        }}
+        readOnly={isDisabled}
+      />
+    </div>
   );
 };
 

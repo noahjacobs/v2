@@ -47,21 +47,26 @@ if (!isNaN(loggerLevel)) {
 }
 const baseClient = globalForPrisma.baseClient || new PrismaClient(prismaOptions);
 
-export const customPrisma = (options?: Prisma.PrismaClientOptions) => {
+// Custom options type for Prisma 7 (datasources removed, use connectionString instead)
+// Also exclude accelerateUrl as it conflicts with adapter-based clients
+type CustomPrismaOptions = Omit<Prisma.PrismaClientOptions, "adapter" | "accelerateUrl"> & {
+  connectionString?: string;
+};
+
+export const customPrisma = (options?: CustomPrismaOptions) => {
   let finalOptions = { ...prismaOptions };
 
-  if (options?.datasources?.db?.url) {
-    const customConnectionString = options.datasources.db.url;
-    const customAdapter = new PrismaPg({ connectionString: customConnectionString });
-
-    const { datasources: _datasources, ...restOptions } = options;
+  if (options?.connectionString) {
+    const customAdapter = new PrismaPg({ connectionString: options.connectionString });
+    const { connectionString: _connectionString, ...restOptions } = options;
     finalOptions = {
       ...prismaOptions,
       ...restOptions,
       adapter: customAdapter,
     };
   } else if (options) {
-    finalOptions = { ...prismaOptions, ...options };
+    const { connectionString: _connectionString, ...restOptions } = options;
+    finalOptions = { ...prismaOptions, ...restOptions };
   }
 
   return new PrismaClient(finalOptions)
@@ -86,7 +91,7 @@ export const prisma: PrismaClient = baseClient
 // If self hosting, feel free to leave INSIGHTS_DATABASE_URL as empty and `readonlyPrisma` will default to `prisma`.
 export const readonlyPrisma = process.env.INSIGHTS_DATABASE_URL
   ? customPrisma({
-      datasources: { db: { url: process.env.INSIGHTS_DATABASE_URL } },
+      connectionString: process.env.INSIGHTS_DATABASE_URL,
     })
   : prisma;
 

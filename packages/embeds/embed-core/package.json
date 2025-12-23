@@ -9,6 +9,7 @@
       "import": "./dist/embed/embed.js",
       "types": "./dist/index.d.ts"
     },
+    "./embed-iframe": "./src/embed-iframe.ts",
     "./embed-iframe-init": "./embed-iframe-init.ts",
     "./src/embed-iframe": "./src/embed-iframe.ts"
   },

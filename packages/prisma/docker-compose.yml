@@ -1,5 +1,7 @@
 # this file is a helper to run Cal.com locally
 # starts a postgres instance on port 5450 to use as a local db
+name: calldesk-dev
+
 services:
   postgres:
     image: postgres:13
@@ -9,9 +11,9 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: "cal-saml"
-      POSTGRES_PASSWORD: ""
-      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: "calldesk"
+      POSTGRES_USER: "calldesk"
+      POSTGRES_PASSWORD: "calldesk_dev_password"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
       interval: 10s

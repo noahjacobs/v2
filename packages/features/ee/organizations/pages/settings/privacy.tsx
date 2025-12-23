@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 
 import { DataTableProvider } from "@calcom/features/data-table";
 import { useSegments } from "@calcom/features/data-table/hooks/useSegments";
-import LicenseRequired from "@calcom/features/ee/common/components/LicenseRequired";
 import MakeTeamPrivateSwitch from "@calcom/features/ee/teams/components/MakeTeamPrivateSwitch";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { trpc } from "@calcom/trpc/react";
@@ -35,38 +34,36 @@ const PrivacyView = ({
   if (!pathname) return null;
 
   return (
-    <LicenseRequired>
-      <div className="stack-y-8">
-        <MakeTeamPrivateSwitch
-          isOrg={true}
-          teamId={currentOrg.id}
-          isPrivate={currentOrg.isPrivate}
-          disabled={isDisabled}
+    <div className="stack-y-8">
+      <MakeTeamPrivateSwitch
+        isOrg={true}
+        teamId={currentOrg.id}
+        isPrivate={currentOrg.isPrivate}
+        disabled={isDisabled}
+      />
+
+      {currentOrg.organizationSettings?.orgAutoAcceptEmail && (
+        <OrgAutoJoinSetting
+          orgId={currentOrg.id}
+          orgAutoJoinEnabled={!!currentOrg.organizationSettings.orgAutoJoinOnSignup}
+          emailDomain={currentOrg.organizationSettings.orgAutoAcceptEmail}
         />
+      )}
 
-        {currentOrg.organizationSettings?.orgAutoAcceptEmail && (
-          <OrgAutoJoinSetting
-            orgId={currentOrg.id}
-            orgAutoJoinEnabled={!!currentOrg.organizationSettings.orgAutoJoinOnSignup}
-            emailDomain={currentOrg.organizationSettings.orgAutoAcceptEmail}
-          />
-        )}
-
-        {watchlistPermissions?.canRead && (
+      {watchlistPermissions?.canRead && (
+        <div>
           <div>
-            <div>
-              <h2 className="text-emphasis text-base font-semibold">{t("organization_blocklist")}</h2>
-              <p className="text-muted text-sm">{t("manage_blocked_emails_and_domains")}</p>
-            </div>
-            <div className="mt-2">
-              <DataTableProvider tableIdentifier={pathname} useSegments={useSegments} defaultPageSize={25}>
-                <BlocklistTable permissions={watchlistPermissions} />
-              </DataTableProvider>
-            </div>
+            <h2 className="text-emphasis text-base font-semibold">{t("organization_blocklist")}</h2>
+            <p className="text-muted text-sm">{t("manage_blocked_emails_and_domains")}</p>
           </div>
-        )}
-      </div>
-    </LicenseRequired>
+          <div className="mt-2">
+            <DataTableProvider tableIdentifier={pathname} useSegments={useSegments} defaultPageSize={25}>
+              <BlocklistTable permissions={watchlistPermissions} />
+            </DataTableProvider>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

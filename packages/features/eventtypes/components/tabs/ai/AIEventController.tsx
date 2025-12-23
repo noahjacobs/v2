@@ -8,7 +8,6 @@ import { getTemplateFieldsSchema } from "@calcom/features/calAIPhone/getTemplate
 import { templateFieldsMap } from "@calcom/features/calAIPhone/template-fields-map";
 import type { TemplateType } from "@calcom/features/calAIPhone/zod-utils";
 import PhoneInput from "@calcom/features/components/phone-input";
-import LicenseRequired from "@calcom/features/ee/common/components/LicenseRequired";
 import type { EventTypeSetup, FormValues } from "@calcom/features/eventtypes/lib/types";
 import { ComponentForField } from "@calcom/features/form-builder/FormBuilderField";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
@@ -39,50 +38,48 @@ export default function AIEventController({ eventType, isTeamEvent }: AIEventCon
   if (session.status === "loading") return <></>;
 
   return (
-    <LicenseRequired>
-      <div className="block items-start sm:flex">
-        {!isOrg || !isTeamEvent ? (
-          <EmptyScreen
-            headline={t("Cal.ai")}
-            Icon="sparkles"
-            description={t("upgrade_to_cal_ai_phone_number_description")}
-            buttonRaw={<Button href="/enterprise">{t("upgrade")}</Button>}
-          />
-        ) : (
-          <div className="w-full">
-            <SettingsToggle
-              labelClassName="text-sm"
-              toggleSwitchAtTheEnd={true}
-              switchContainerClassName={classNames(
-                "border-subtle rounded-lg border py-6 px-4 sm:px-6",
-                aiEventState && "rounded-b-none"
-              )}
-              childrenClassName="lg:ml-0"
-              title={t("Cal.ai")}
-              description={t("use_cal_ai_to_make_call_description")}
-              checked={aiEventState}
-              data-testid="instant-event-check"
-              onCheckedChange={(e) => {
-                if (!e) {
-                  formMethods.setValue("aiPhoneCallConfig.enabled", false, {
-                    shouldDirty: true,
-                  });
-                  setAIEventState(false);
-                } else {
-                  formMethods.setValue("aiPhoneCallConfig.enabled", true, {
-                    shouldDirty: true,
-                  });
-                  setAIEventState(true);
-                }
-              }}>
-              <div className="border-subtle rounded-b-lg border border-t-0 p-6">
-                {aiEventState && <AISettings eventType={eventType} />}
-              </div>
-            </SettingsToggle>
-          </div>
-        )}
-      </div>
-    </LicenseRequired>
+    <div className="block items-start sm:flex">
+      {!isOrg || !isTeamEvent ? (
+        <EmptyScreen
+          headline={t("Cal.ai")}
+          Icon="sparkles"
+          description={t("upgrade_to_cal_ai_phone_number_description")}
+          buttonRaw={<Button href="/enterprise">{t("upgrade")}</Button>}
+        />
+      ) : (
+        <div className="w-full">
+          <SettingsToggle
+            labelClassName="text-sm"
+            toggleSwitchAtTheEnd={true}
+            switchContainerClassName={classNames(
+              "border-subtle rounded-lg border py-6 px-4 sm:px-6",
+              aiEventState && "rounded-b-none"
+            )}
+            childrenClassName="lg:ml-0"
+            title={t("Cal.ai")}
+            description={t("use_cal_ai_to_make_call_description")}
+            checked={aiEventState}
+            data-testid="instant-event-check"
+            onCheckedChange={(e) => {
+              if (!e) {
+                formMethods.setValue("aiPhoneCallConfig.enabled", false, {
+                  shouldDirty: true,
+                });
+                setAIEventState(false);
+              } else {
+                formMethods.setValue("aiPhoneCallConfig.enabled", true, {
+                  shouldDirty: true,
+                });
+                setAIEventState(true);
+              }
+            }}>
+            <div className="border-subtle rounded-b-lg border border-t-0 p-6">
+              {aiEventState && <AISettings eventType={eventType} />}
+            </div>
+          </SettingsToggle>
+        </div>
+      )}
+    </div>
   );
 }
 

@@ -7,7 +7,6 @@ import { shallow } from "zustand/shallow";
 import BookingPageTagManager from "@calcom/app-store/BookingPageTagManager";
 import { useIsPlatformBookerEmbed } from "@calcom/atoms/hooks/useIsPlatformBookerEmbed";
 import dayjs from "@calcom/dayjs";
-import PoweredBy from "@calcom/ee/components/PoweredBy";
 import { useEmbedUiConfig } from "@calcom/embed-core/embed-iframe";
 import { updateEmbedBookerState } from "@calcom/embed-core/src/embed-iframe";
 import TurnstileCaptcha from "@calcom/features/auth/Turnstile";
@@ -74,7 +73,6 @@ const BookerComponent = ({
   customClassNames,
   areInstantMeetingParametersSet = false,
   userLocale,
-  hasValidLicense,
   isBookingDryRun: isBookingDryRunProp,
   renderCaptcha,
   hashedLink,
@@ -569,17 +567,6 @@ const BookerComponent = ({
           </div>
         )}
 
-        {!hideBranding && (!isPlatform || isPlatformBookerEmbed) && !shouldRenderCaptcha && (
-          <m.span
-            key="logo"
-            className={classNames(
-              "mb-6 mt-auto pt-6 [&_img]:h-[15px]",
-              hasDarkBackground ? "dark" : "",
-              layout === BookerLayouts.MONTH_VIEW ? "block" : "hidden"
-            )}>
-            <PoweredBy logoOnly hasValidLicense={hasValidLicense} />
-          </m.span>
-        )}
       </div>
       <>
         {verifyCode && formEmail ? (

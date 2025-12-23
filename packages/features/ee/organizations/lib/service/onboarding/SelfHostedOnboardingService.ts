@@ -1,9 +1,6 @@
-import { LicenseKeySingleton } from "@calcom/ee/common/server/LicenseKeyService";
-import { DeploymentRepository } from "@calcom/features/ee/deployment/repositories/DeploymentRepository";
 import { getOrganizationRepository } from "@calcom/features/ee/organizations/di/OrganizationRepository.container";
 import { findUserToBeOrgOwner } from "@calcom/features/ee/organizations/lib/server/orgCreationUtils";
 import { OrganizationOnboardingRepository } from "@calcom/features/organizations/repositories/OrganizationOnboardingRepository";
-import { IS_SELF_HOSTED } from "@calcom/lib/constants";
 import logger from "@calcom/lib/logger";
 import { safeStringify } from "@calcom/lib/safeStringify";
 import { getTranslation } from "@calcom/lib/server/i18n";
@@ -125,16 +122,6 @@ export class SelfHostedOrganizationOnboardingService extends BaseOnboardingServi
         orgSlug: organizationOnboarding.slug,
       })
     );
-
-    if (IS_SELF_HOSTED) {
-      const deploymentRepo = new DeploymentRepository(prisma);
-      const licenseKeyService = await LicenseKeySingleton.getInstance(deploymentRepo);
-      const hasValidLicense = await licenseKeyService.checkLicense();
-
-      if (!hasValidLicense) {
-        throw new Error("Self hosted license not valid");
-      }
-    }
 
     if (
       await this.hasConflictingOrganization({

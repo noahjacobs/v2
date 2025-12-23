@@ -3,7 +3,6 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
-import LicenseRequired from "@calcom/features/ee/common/components/LicenseRequired";
 import useLockedFieldsManager from "@calcom/features/ee/managed-event-types/hooks/useLockedFieldsManager";
 import SkeletonLoader from "@calcom/features/ee/workflows/components/SkeletonLoaderEventWorkflowsTab";
 import type { WorkflowType } from "@calcom/features/ee/workflows/components/WorkflowListPage";
@@ -242,7 +241,7 @@ function EventWorkflowsTab(props: Props) {
   });
 
   return (
-    <LicenseRequired>
+    <>
       {!isPending ? (
         <>
           {(isManagedEventType || isChildrenManagedEventType) && (
@@ -305,7 +304,7 @@ function EventWorkflowsTab(props: Props) {
       ) : (
         <SkeletonLoader />
       )}
-    </LicenseRequired>
+    </>
   );
 }
 

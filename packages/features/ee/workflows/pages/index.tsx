@@ -19,7 +19,6 @@ import { AnimatedPopover } from "@calcom/ui/components/popover";
 import { FilterResults } from "../../../filters/components/FilterResults";
 import { TeamsFilter } from "../../../filters/components/TeamsFilter";
 import { getTeamsFiltersFromQuery } from "../../../filters/lib/getTeamsFiltersFromQuery";
-import LicenseRequired from "../../common/components/LicenseRequired";
 import EmptyScreen from "../components/EmptyScreen";
 import SkeletonLoader from "../components/SkeletonLoaderList";
 import { WorkflowCreationDialog, useWorkflowCreation } from "../components/WorkflowCreationDialog";
@@ -50,27 +49,24 @@ function WorkflowsPage({ filteredList }: PageProps) {
 
   return (
     <Shell withoutMain>
-      <LicenseRequired>
-        <ShellMain
-          heading={t("workflows")}
-          subtitle={t("workflows_to_automate_notifications")}
-          title={t("workflows")}
-          description={t("workflows_to_automate_notifications")}
-          CTA={
-            session.data?.hasValidLicense ? (
-              <CreateButtonWithTeamsList
-                subtitle={t("new_workflow_subtitle").toUpperCase()}
-                createFunction={openDialog}
-                disableMobileButton={true}
-                onlyShowWithNoTeams={true}
-                includeOrg={true}
-                withPermission={{
-                  permission: "workflow.create",
-                  fallbackRoles: ["ADMIN", "OWNER"],
-                }}
-              />
-            ) : null
-          }>
+      <ShellMain
+        heading={t("workflows")}
+        subtitle={t("workflows_to_automate_notifications")}
+        title={t("workflows")}
+        description={t("workflows_to_automate_notifications")}
+        CTA={
+          <CreateButtonWithTeamsList
+            subtitle={t("new_workflow_subtitle").toUpperCase()}
+            createFunction={openDialog}
+            disableMobileButton={true}
+            onlyShowWithNoTeams={true}
+            includeOrg={true}
+            withPermission={{
+              permission: "workflow.create",
+              fallbackRoles: ["ADMIN", "OWNER"],
+            }}
+          />
+        }>
           <>
             {filteredWorkflows?.totalCount ? (
               <div className="flex mb-2">
@@ -98,9 +94,8 @@ function WorkflowsPage({ filteredList }: PageProps) {
               <WorkflowList workflows={filteredWorkflows?.filtered} />
             </FilterResults>
           </>
-        </ShellMain>
-        <WorkflowCreationDialog open={showDialog} onOpenChange={setShowDialog} teamId={pendingTeamId} />
-      </LicenseRequired>
+      </ShellMain>
+      <WorkflowCreationDialog open={showDialog} onOpenChange={setShowDialog} teamId={pendingTeamId} />
     </Shell>
   );
 }

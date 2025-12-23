@@ -53,7 +53,6 @@ const createSessionGetter = (userId: number) => async () => {
       } satisfies UserProfile,
     },
     upId: "",
-    hasValidLicense: true,
     expires: "" /* Not used in this context */,
   };
 };

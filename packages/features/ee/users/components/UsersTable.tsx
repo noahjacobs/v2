@@ -22,7 +22,6 @@ import { Icon } from "@calcom/ui/components/icon";
 import { DropdownActions, Table } from "@calcom/ui/components/table";
 import { showToast } from "@calcom/ui/components/toast";
 
-import { withLicenseRequired } from "../../common/components/LicenseRequired";
 
 const { Cell, ColumnTitle, Header, Row } = Table;
 
@@ -359,4 +358,4 @@ const DeleteUserDialog = ({
   );
 };
 
-export const UsersTable = withLicenseRequired(UsersTableBare);
+export const UsersTable = UsersTableBare;

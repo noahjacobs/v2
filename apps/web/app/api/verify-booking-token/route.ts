@@ -108,7 +108,6 @@ async function handleBookingAction(
         } satisfies UserProfile,
       },
       upId: "",
-      hasValidLicense: true,
       expires: "" /* Not used in this context */,
     };
   }

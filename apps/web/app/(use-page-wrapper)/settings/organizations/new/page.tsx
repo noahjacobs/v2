@@ -1,7 +1,5 @@
 import { _generateMetadata } from "app/_utils";
 
-import LicenseRequired from "@calcom/features/ee/common/components/LicenseRequired";
-
 import LegacyPage, { LayoutWrapper } from "~/settings/organizations/new/create-new-view";
 
 export const generateMetadata = async () =>
@@ -16,9 +14,7 @@ export const generateMetadata = async () =>
 const ServerPage = async () => {
   return (
     <LayoutWrapper>
-      <LicenseRequired>
-        <LegacyPage />
-      </LicenseRequired>
+      <LegacyPage />
     </LayoutWrapper>
   );
 };

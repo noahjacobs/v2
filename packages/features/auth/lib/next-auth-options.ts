@@ -11,9 +11,7 @@ import GoogleProvider from "next-auth/providers/google";
 
 import { updateProfilePhotoGoogle } from "@calcom/app-store/_utils/oauth/updateProfilePhotoGoogle";
 import GoogleCalendarService from "@calcom/app-store/googlecalendar/lib/CalendarService";
-import { LicenseKeySingleton } from "@calcom/ee/common/server/LicenseKeyService";
 import { CredentialRepository } from "@calcom/features/credentials/repositories/CredentialRepository";
-import { DeploymentRepository } from "@calcom/features/ee/deployment/repositories/DeploymentRepository";
 import createUsersAndConnectToOrg from "@calcom/features/ee/dsync/lib/users/createUsersAndConnectToOrg";
 import ImpersonationProvider from "@calcom/features/ee/impersonation/lib/ImpersonationProvider";
 import { getOrganizationRepository } from "@calcom/features/ee/organizations/di/OrganizationRepository.container";
@@ -744,15 +742,11 @@ export const getOptions = ({
     },
     async session({ session, token, user }) {
       log.debug("callbacks:session - Session callback called", safeStringify({ session, token, user }));
-      const deploymentRepo = new DeploymentRepository(prisma);
-      const licenseKeyService = await LicenseKeySingleton.getInstance(deploymentRepo);
-      const hasValidLicense = await licenseKeyService.checkLicense();
       const profileId = token.profileId;
       const calendsoSession: Session = {
         ...session,
         profileId,
         upId: token.upId || session.upId,
-        hasValidLicense,
         user: {
           ...session.user,
           id: token.id as number,

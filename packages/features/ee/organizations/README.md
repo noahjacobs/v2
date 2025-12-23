@@ -10,13 +10,12 @@ From the [Original RFC](https://github.com/calcom/cal.com/issues/7142):
 
 2.  Set the following environment variables as described:
 
-    1. **`CALCOM_LICENSE_KEY`**: Since Organizations is an EE feature, a license key should be present, either as this environment variable or visiting as an Admin `/auth/setup`. To get a license key, please [contact sales](https://cal.com/sales)
-    2. **`NEXT_PUBLIC_WEBAPP_URL`**: In case of local development, this variable should be set to `http://app.cal.local:3000` to be able to handle subdomains correctly in terms of authentication and cookies
-    3. **`NEXTAUTH_URL`**: Should be equal to `NEXT_PUBLIC_WEBAPP_URL` which is `http://app.cal.local:3000`
-    4. **`NEXTAUTH_COOKIE_DOMAIN`**: In case of local development, this variable should be set to `.cal.local` to be able to accept session cookies in subdomains as well otherwise it should be set to the corresponding environment such as `.cal.dev`, `.cal.qa` or `.cal.com`. If you choose another subdomain, the value for this should match the apex domain of `NEXT_PUBLIC_WEBAPP_URL` with a leading dot (`.`)
-    5. **`ORGANIZATIONS_ENABLED`**: Should be set to `1` or `true`
-    6. **`STRIPE_ORG_MONTHLY_PRICE_ID`**: For dev and all testing should be set to your own testing key. Or ask for the shared key if you're a core member.
-    7. **`ORGANIZATIONS_AUTOLINK`**: Optional. Set to `1` or `true` to let new signed-up users using Google external provider join the corresponding organization based on the email domain name.
+    1. **`NEXT_PUBLIC_WEBAPP_URL`**: In case of local development, this variable should be set to `http://app.cal.local:3000` to be able to handle subdomains correctly in terms of authentication and cookies
+    2. **`NEXTAUTH_URL`**: Should be equal to `NEXT_PUBLIC_WEBAPP_URL` which is `http://app.cal.local:3000`
+    3. **`NEXTAUTH_COOKIE_DOMAIN`**: In case of local development, this variable should be set to `.cal.local` to be able to accept session cookies in subdomains as well otherwise it should be set to the corresponding environment such as `.cal.dev`, `.cal.qa` or `.cal.com`. If you choose another subdomain, the value for this should match the apex domain of `NEXT_PUBLIC_WEBAPP_URL` with a leading dot (`.`)
+    4. **`ORGANIZATIONS_ENABLED`**: Should be set to `1` or `true`
+    5. **`STRIPE_ORG_MONTHLY_PRICE_ID`**: For dev and all testing should be set to your own testing key. Or ask for the shared key if you're a core member.
+    6. **`ORGANIZATIONS_AUTOLINK`**: Optional. Set to `1` or `true` to let new signed-up users using Google external provider join the corresponding organization based on the email domain name.
 
 3.  Add `app.cal.local` to your host file, either:
 

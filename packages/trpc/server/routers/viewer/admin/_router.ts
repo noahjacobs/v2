@@ -1,7 +1,6 @@
 import { authedAdminProcedure } from "../../../procedures/authedProcedure";
 import { router } from "../../../trpc";
 import { ZAdminAssignFeatureToTeamSchema } from "./assignFeatureToTeam.schema";
-import { ZCreateSelfHostedLicenseSchema } from "./createSelfHostedLicenseKey.schema";
 import { ZAdminGetTeamsForFeatureSchema } from "./getTeamsForFeature.schema";
 import { ZListMembersSchema } from "./listPaginated.schema";
 import { ZAdminLockUserAccountSchema } from "./lockUserAccount.schema";
@@ -50,12 +49,6 @@ export const adminRouter = router({
     const { default: handler } = await import("./setSMSLockState.handler");
     return handler(opts);
   }),
-  createSelfHostedLicense: authedAdminProcedure
-    .input(ZCreateSelfHostedLicenseSchema)
-    .mutation(async (opts) => {
-      const { default: handler } = await import("./createSelfHostedLicenseKey.handler");
-      return handler(opts);
-    }),
   verifyWorkflows: authedAdminProcedure.input(ZAdminVerifyWorkflowsSchema).mutation(async (opts) => {
     const { default: handler } = await import("./verifyWorkflows.handler");
     return handler(opts);

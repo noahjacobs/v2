@@ -5,8 +5,8 @@
   "scripts": {
     "clean": "rm -rf .turbo && rm -rf node_modules",
     "build": "ts-node --transpile-only ./auto-migrations.ts",
-    "db-deploy": "bun run prisma migrate deploy",
-    "db-migrate": "bun run prisma migrate dev",
+    "db-deploy": "bun run prisma migrate deploy && bun run prisma generate",
+    "db-migrate": "bun run prisma migrate dev && bun run prisma generate",
     "db-nuke": "docker compose down --volumes --remove-orphans || docker-compose down --volumes --remove-orphans",
     "db-reset": "run-s db-nuke db-setup",
     "db-seed": "bun run prisma db seed",
@@ -23,18 +23,20 @@
     "seed-pbac": "ts-node --transpile-only ../../scripts/seed-pbac-organization.ts"
   },
   "dependencies": {
-    "@prisma/adapter-pg": "^6.16.0",
-    "@prisma/client": "^6.16.0",
-    "@prisma/extension-accelerate": "^1.3.0",
-    "@prisma/generator-helper": "^6.16.0",
-    "prisma": "^6.16.0",
+    "@prisma/adapter-pg": "^7.2.0",
+    "@prisma/client": "^7.2.0",
+    "@prisma/extension-accelerate": "^3.0.1",
+    "@prisma/generator-helper": "^7.2.0",
+    "prisma": "^7.2.0",
     "prisma-kysely": "2.2.0",
     "ts-node": "^10.9.1",
     "uuid": "^8.3.2",
     "zod": "^3.22.4",
-    "zod-prisma-types": "^3.2.4"
+    "zod-prisma-types": "^3.3.10"
   },
   "devDependencies": {
+    "@types/pg": "^8.11.0",
+    "@types/uuid": "^9.0.0",
     "npm-run-all": "^4.1.5"
   },
   "main": "index.ts",

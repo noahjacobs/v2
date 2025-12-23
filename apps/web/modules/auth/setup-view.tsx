@@ -11,36 +11,28 @@ import { WizardForm } from "@calcom/ui/components/form";
 import type { WizardStep } from "@calcom/ui/components/form/wizard/WizardForm";
 
 import { AdminUserContainer as AdminUser } from "@components/setup/AdminUser";
-import LicenseSelection from "@components/setup/LicenseSelection";
+import TimezoneSelection from "@components/setup/TimezoneSelection";
 
 import type { getServerSideProps } from "@server/lib/setup/getServerSideProps";
 
-const SETUP_VIEW_SETPS = {
+const SETUP_VIEW_STEPS = {
   ADMIN_USER: 1,
-  LICENSE: 2,
+  TIMEZONE: 2,
   APPS: 3,
 } as const;
 
 export type PageProps = inferSSRProps<typeof getServerSideProps>;
 export function Setup(props: PageProps) {
-  const [hasPickedAGPLv3, setHasPickedAGPLv3] = useState(false);
   const [adminUserCreated, setAdminUserCreated] = useState(props.userCount > 0);
   const { t } = useLocale();
   const router = useRouter();
-  const [licenseOption, setLicenseOption] = useState<"FREE" | "EXISTING">(
-    props.hasValidLicense ? "EXISTING" : "FREE"
-  );
 
   const defaultStep = useMemo(() => {
     if (props.userCount > 0) {
-      if (!props.hasValidLicense && !hasPickedAGPLv3) {
-        return SETUP_VIEW_SETPS.LICENSE;
-      } else {
-        return SETUP_VIEW_SETPS.APPS;
-      }
+      return SETUP_VIEW_STEPS.APPS;
     }
-    return SETUP_VIEW_SETPS.ADMIN_USER;
-  }, [props.userCount, props.hasValidLicense, hasPickedAGPLv3]);
+    return SETUP_VIEW_STEPS.ADMIN_USER;
+  }, [props.userCount]);
 
   const steps: WizardStep[] = [
     {
@@ -54,13 +46,7 @@ export function Setup(props: PageProps) {
           }}
           onSuccess={() => {
             setAdminUserCreated(true);
-            // If there's already a valid license or user picked AGPLv3, skip to apps step
-            if (props.hasValidLicense || hasPickedAGPLv3) {
-              nav.onNext();
-              nav.onNext(); // Skip license step
-            } else {
-              nav.onNext();
-            }
+            nav.onNext();
           }}
           onError={() => {
             setIsPending(false);
@@ -70,64 +56,44 @@ export function Setup(props: PageProps) {
         />
       ),
     },
-  ];
-
-  // Only show license selection step if there's no valid license already and AGPLv3 wasn't picked
-  if (!props.hasValidLicense && !hasPickedAGPLv3) {
-    steps.push({
-      title: t("choose_a_license"),
-      description: t("choose_license_description"),
+    {
+      title: t("general"),
+      description: t("general_description"),
+      customActions: true,
+      content: (setIsPending, nav) => (
+        <TimezoneSelection
+          onSuccess={() => nav.onNext()}
+          onPrevStep={nav.onPrev}
+        />
+      ),
+    },
+    {
+      title: t("enable_apps"),
+      description: t("enable_apps_description", { appName: APP_NAME }),
+      contentClassname: "pb-0! -mb-px",
       customActions: true,
       content: (setIsPending, nav) => {
         return (
-          <LicenseSelection
-            id="wizard-step-2"
-            name="wizard-step-2"
-            value={licenseOption}
-            onChange={setLicenseOption}
-            onSubmit={(values) => {
-              setIsPending(true);
-              if (licenseOption === "FREE") {
-                setHasPickedAGPLv3(true);
-                nav.onNext();
-              } else if (licenseOption === "EXISTING" && values.licenseKey) {
-                nav.onNext();
-              }
+          <AdminAppsList
+            id="wizard-step-3"
+            name="wizard-step-3"
+            classNames={{
+              form: "mb-4 rounded-md bg-default px-0 pt-0 md:max-w-full",
+              appCategoryNavigationContainer: "max-h-[400px] overflow-y-auto md:p-4",
+              verticalTabsItem: "w-48! md:p-4",
             }}
-            onPrevStep={nav.onPrev}
-            onNextStep={nav.onNext}
+            baseURL="/auth/setup?step=3"
+            useQueryParam={true}
+            onSubmit={() => {
+              setIsPending(true);
+              router.replace("/");
+            }}
+            nav={nav}
           />
         );
       },
-    });
-  }
-
-  steps.push({
-    title: t("enable_apps"),
-    description: t("enable_apps_description", { appName: APP_NAME }),
-    contentClassname: "pb-0! -mb-px",
-    customActions: true,
-    content: (setIsPending, nav) => {
-      return (
-        <AdminAppsList
-          id={`wizard-step-${steps.length}`}
-          name={`wizard-step-${steps.length}`}
-          classNames={{
-            form: "mb-4 rounded-md bg-default px-0 pt-0 md:max-w-full",
-            appCategoryNavigationContainer: "max-h-[400px] overflow-y-auto md:p-4",
-            verticalTabsItem: "w-48! md:p-4",
-          }}
-          baseURL={`/auth/setup?step=${steps.length}`}
-          useQueryParam={true}
-          onSubmit={() => {
-            setIsPending(true);
-            router.replace("/");
-          }}
-          nav={nav}
-        />
-      );
     },
-  });
+  ];
 
   return (
     <main className="bg-subtle flex items-center print:h-full md:h-screen">

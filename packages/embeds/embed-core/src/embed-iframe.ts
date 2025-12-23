@@ -14,7 +14,7 @@ import {
   isBrowser,
   log,
 } from "./embed-iframe/lib/utils";
-import { sdkActionManager } from "./sdk-event";
+export { sdkActionManager } from "./sdk-event";
 import type {
   UiConfig,
   EmbedNonStylesConfig,

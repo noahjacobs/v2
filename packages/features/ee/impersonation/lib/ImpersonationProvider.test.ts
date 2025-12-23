@@ -14,7 +14,6 @@ import {
 
 const session: Session = {
   expires: "2021-08-31T15:00:00.000Z",
-  hasValidLicense: true,
   user: {
     id: 123,
     username: "test",

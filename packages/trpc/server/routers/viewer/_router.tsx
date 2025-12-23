@@ -18,7 +18,6 @@ import { calendarsRouter } from "./calendars/_router";
 import { credentialsRouter } from "./credentials/_router";
 import { creditsRouter } from "./credits/_router";
 import { delegationCredentialRouter } from "./delegationCredential/_router";
-import { deploymentSetupRouter } from "./deploymentSetup/_router";
 import { dsyncRouter } from "./dsync/_router";
 import { eventTypesRouter } from "./eventTypes/_router";
 import { eventTypesRouter as heavyEventTypesRouter } from "./eventTypes/heavy/_router";
@@ -49,7 +48,6 @@ export const viewerRouter = router({
   me: meRouter,
   public: publicViewerRouter,
   auth: authRouter,
-  deploymentSetup: deploymentSetupRouter,
   bookings: bookingsRouter,
   calendars: calendarsRouter,
   calVideo: calVideoRouter,

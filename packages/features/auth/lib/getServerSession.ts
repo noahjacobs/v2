@@ -3,8 +3,6 @@ import type { GetServerSidePropsContext, NextApiRequest } from "next";
 import type { AuthOptions, Session } from "next-auth";
 import { getToken } from "next-auth/jwt";
 
-import { LicenseKeySingleton } from "@calcom/ee/common/server/LicenseKeyService";
-import { DeploymentRepository } from "@calcom/features/ee/deployment/repositories/DeploymentRepository";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
 import { getUserAvatarUrl } from "@calcom/lib/getAvatarUrl";
 import logger from "@calcom/lib/logger";
@@ -65,10 +63,6 @@ export async function getServerSession(options: {
     return null;
   }
 
-  const deploymentRepo = new DeploymentRepository(prisma);
-  const licenseKeyService = await LicenseKeySingleton.getInstance(deploymentRepo);
-  const hasValidLicense = await licenseKeyService.checkLicense();
-
   let upId = token.upId;
 
   if (!upId) {
@@ -87,7 +81,6 @@ export async function getServerSession(options: {
   });
 
   const session: Session = {
-    hasValidLicense,
     expires: new Date(typeof token.exp === "number" ? token.exp * 1000 : Date.now()).toISOString(),
     user: {
       id: user.id,
