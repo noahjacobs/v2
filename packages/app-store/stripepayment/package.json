@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@calcom/dayjs": "workspace:*",
+    "@radix-ui/react-radio-group": "^1.1.3",
     "@calcom/emails": "workspace:*",
     "@calcom/features": "workspace:*",
     "@calcom/lib": "workspace:*",

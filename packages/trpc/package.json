@@ -13,7 +13,9 @@
     "trpc:generate": "bun run tsc --project tsconfig.json"
   },
   "dependencies": {
+    "@calcom/paypal": "workspace:*",
     "@tanstack/react-query": "^5.17.15",
+    "lodash": "^4.17.21",
     "@trpc/client": "11.0.0-next-beta.222",
     "@trpc/next": "11.0.0-next-beta.222",
     "@trpc/react-query": "11.0.0-next-beta.222",

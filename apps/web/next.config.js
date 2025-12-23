@@ -194,8 +194,10 @@ const nextConfig = (phase) => {
   return {
     output: process.env.BUILD_STANDALONE === "true" ? "standalone" : undefined,
     serverExternalPackages: [
+      "@ewsjs/xhr",
       "deasync",
       "http-cookie-agent", // Dependencies of @ewsjs/xhr
+      "tough-cookie",
       "rest-facade",
       "superagent-proxy", // Dependencies of @tryvital/vital-node
       "superagent", // Dependencies of akismet

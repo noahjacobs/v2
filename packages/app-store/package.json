@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@calcom/dailyvideo": "workspace:*",
+    "@tanstack/react-query": "^5.17.15",
     "@calcom/dayjs": "workspace:*",
     "@calcom/features": "workspace:*",
     "@calcom/lib": "workspace:*",

@@ -31,6 +31,10 @@
     "bun": ">=1.3.5"
   },
   "dependencies": {
+    "@ewsjs/xhr": "^3.1.3",
+    "deasync": "^0.1.30",
+    "http-cookie-agent": "^5.0.4",
+    "tough-cookie": "^4.1.3",
     "@boxyhq/saml-jackson": "1.52.2",
     "@trpc/client": "11.0.0-next-beta.222",
     "@trpc/react-query": "11.0.0-next-beta.222",
